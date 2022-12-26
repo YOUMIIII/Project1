@@ -2,6 +2,7 @@ package Pjt_1_Login;
 
 import java.awt.Button;
 import java.awt.Choice;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -16,15 +17,20 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Calendar;
 
-public class Login_SignFrame extends WindowAdapter{
+public class Login_SignFrame extends WindowAdapter {
 	Toolkit tk = Toolkit.getDefaultToolkit();
 	Dimension screenSize = tk.getScreenSize();
 	Dimension d;
 	Frame fSign;
 	Label lId, lPw, lRePw, lBirth, lEmail;
 	TextField tId, tPw, tRePw, tYear, tEmail;
-	Button btnSign;
+	Button btnSign, ok;
 	Choice cMonth, cDay;
+	String id, pw, repw, email, birth;
+	int year, month, day;
+	Dialog error = new Dialog(fSign, "회원가입 오류", true);
+	Label msg = new Label("");
+//	boolean off;
 
 	Login_SignFrame() {
 		fSign = new Frame("회원가입");
@@ -44,12 +50,13 @@ public class Login_SignFrame extends WindowAdapter{
 		tYear = new TextField(4);
 		cMonth = new Choice();
 		for (int i = 1; i <= 12; i++) {
-			cMonth.add(i + "월");
+			cMonth.add(i + "");
 		}
 		cDay = new Choice();
 		lEmail = new Label("본인 확인 이메일");
 		tEmail = new TextField(50);
 		btnSign = new Button("가입하기");
+		ok = new Button("확인");
 
 	}
 
@@ -69,11 +76,28 @@ public class Login_SignFrame extends WindowAdapter{
 		cMonth.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				Calendar birth = Calendar.getInstance();
-				birth.set(Calendar.MONTH, (int) (cMonth.getSelectedItem().charAt(0))-49);
-				birth.set(Calendar.YEAR, Integer.parseInt(tYear.getText()));
-				for (int i = 1; i <= birth.getActualMaximum(Calendar.DATE); i++) {
-					cDay.add(i + "일");
+				try {
+					Calendar birth = Calendar.getInstance();
+					birth.set(Calendar.MONTH, (int) (cMonth.getSelectedItem().charAt(0)) - 49);
+					birth.set(Calendar.YEAR, Integer.parseInt(tYear.getText()));
+					for (int i = 1; i <= birth.getActualMaximum(Calendar.DATE); i++) {
+						cDay.add(i + "");
+					}
+				} catch (Exception ee) {
+					error.setSize(290, 110);
+					d = error.getSize();
+					error.setLocation((screenSize.width - (int) (d.getWidth())) / 2,
+							(screenSize.height - (int) (d.getHeight())) / 2);
+					error.setLayout(new FlowLayout());
+					msg.setText("연도를 먼저 입력해주세요!");
+					error.add(msg);
+					error.add(ok);
+					ok.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							error.dispose();
+						}
+					});
+					error.setVisible(true);
 				}
 			}
 		});
@@ -82,9 +106,78 @@ public class Login_SignFrame extends WindowAdapter{
 		fSign.add(tEmail);
 		fSign.add(btnSign);
 		btnSign.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
-//				System.out.println("ddd");
+				id = tId.getText();
+				pw = tPw.getText();
+				repw = tRePw.getText();
+				year = Integer.parseInt(tYear.getText());
+				month = Integer.parseInt(cMonth.getSelectedItem());
+				day = Integer.parseInt(cDay.getSelectedItem());
+				birth = year + "-" + month + "-" + day;
+				email = tEmail.getText();
+				error.setSize(290, 110);
+				d = error.getSize();
+				error.setLocation((screenSize.width - (int) (d.getWidth())) / 2,
+						(screenSize.height - (int) (d.getHeight())) / 2);
+				error.setLayout(new FlowLayout());
+
+				if (id.length() < 6 || id.length() > 12) {
+					msg.setText("아이디의 글자수를 한번 더 확인해 주세요!");
+					error.add(msg);
+					error.add(ok);
+					ok.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							error.dispose();
+						}
+					});
+					error.setVisible(true);
+				} else if (pw.length() < 6 || pw.length() > 12) {
+					msg.setText("비밀번호의 글자수를 한번 더 확인해 주세요!");
+					error.add(msg);
+					error.add(ok);
+					ok.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							error.dispose();
+						}
+					});
+					error.setVisible(true);
+				} else if (!(pw.equals(repw))) {
+					msg.setText("입력하신 비밀번호가 일치하지 않습니다!");
+					error.add(msg);
+					error.add(ok);
+					ok.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							error.dispose();
+						}
+					});
+					error.setVisible(true);
+				} else if (!(email.contains("@"))) {
+					msg.setText("입력하신 이메일의 형식이 올바르지 않습니다!");
+					error.add(msg);
+					error.add(ok);
+					ok.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							error.dispose();
+						}
+					});
+					error.setVisible(true);
+				} else if (year < 1000 || tYear.getText().equals(null)) {
+					msg.setText("입력하신 생일 형식이 올바르지 않습니다!");
+					error.add(msg);
+					error.add(ok);
+					ok.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							error.dispose();
+						}
+					});
+					error.setVisible(true);
+				}
+				else {
+					String sql = "insert into member values ('" + id + "','" + pw + "','" + birth + "','" + email
+							+ "')";
+					new MemDao(sql);
+					
+				}
 			}
 		});
 
@@ -92,7 +185,13 @@ public class Login_SignFrame extends WindowAdapter{
 	}
 
 	public void windowClosing(WindowEvent e) {
-		System.exit(0);
+		fSign.setVisible(false);
+		LoginFrame lf = new LoginFrame();
+		lf.loginOpen();
+	}
+	
+	void signClose() {
+		fSign.setVisible(false);
 		LoginFrame lf = new LoginFrame();
 		lf.loginOpen();
 	}
