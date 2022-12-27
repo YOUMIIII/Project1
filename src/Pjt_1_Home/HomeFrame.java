@@ -1,126 +1,106 @@
 package Pjt_1_Home;
 
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.Panel;
+import java.awt.GridLayout;
 import java.awt.TextField;
-import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.ImageObserver;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-public class HomeFrame extends WindowAdapter implements ImageObserver {
-	Toolkit tk = Toolkit.getDefaultToolkit();
-	Dimension screenSize = tk.getScreenSize();
-	Dimension d;
-	Frame fHome;
-	Panel pWest1, pWest2, pWest3, pWest4, pWest5, pWest6;
-	Label lbn1, lbn2, lbn3, lbh, lbw;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class HomeFrame{
+	Date today = new Date();
+	SimpleDateFormat dateFormat1 = new SimpleDateFormat("YY년 MM월 dd일(E)", Locale.KOREA);
+
+	JFrame fHome;
+	JPanel pDate, pMenu, pMenuB, pMenuL, pMenuD;
+	JLabel lDate, lMenuB, lMenuL, lMenuD;
 	Font f1, f2;
 	TextField tfh, tfw;
-	Button bEdit;
-	Image iBaby1 = tk.getImage("D:\\work-java\\Project1\\src\\iMage\\baby1.png");
-	Image iBaby2 = tk.getImage("D:\\work-java\\Project1\\src\\iMage\\baby2.png");
-	Image iBaby3 = tk.getImage("D:\\work-java\\Project1\\src\\iMage\\baby3.png");
+	JButton bMenuB, bMenuL, bMenuD;
+	
 
-//	void paint(Graphics g) {
-//		g.drawImage(iBaby1, 126, 84, this);
-//	}
-
-	HomeFrame() {
-		fHome = new Frame("홈");
-		f1 = new Font("Inter", Font.PLAIN, 30);
-		f2 = new Font("Inter", Font.PLAIN, 15);
-		pWest1 = new Panel()
-		{
-			public void paint(Graphics g) {
-				g.drawImage(iBaby1, 125, 40, 127, 127, this);
-			}
-		};
-
-		pWest2 = new Panel() {
-			public void paint(Graphics g) {
-				g.drawImage(iBaby2, 125, 40, 127, 127, this);
-			}
-		};
-		pWest3 = new Panel() {
-			public void paint(Graphics g) {
-				g.drawImage(iBaby3, 125, 40, 127, 127, this);
-			}
-		};
-		pWest4 = new Panel();
-		pWest5 = new Panel();
-		pWest6 = new Panel();
-		lbn1 = new Label("이름1");
-		lbh = new Label("키  : ");
-		lbw = new Label("몸무게  : ");
-		tfh = new TextField(6);
-		tfw = new TextField(6);
-		bEdit = new Button("  수정  ");
-//		lBName2 = new Label("이름2");
-//		lBName3 = new Label("이름3");
-
+	public HomeFrame() {
+		fHome = new JFrame(); // 메인페이지 프레임
+		fHome.setTitle("식단");
+		pDate = new JPanel();
+		lDate = new JLabel(dateFormat1.format(today), JLabel.LEFT);
+		pMenu = new JPanel();
+		pMenuB = new JPanel();
+		pMenuL = new JPanel();
+		pMenuD = new JPanel();
+		lMenuB = new JLabel("아침");
+		lMenuL = new JLabel("점심");
+		lMenuD = new JLabel("저녁");
+		bMenuB = new JButton("식단추가");
+		bMenuL = new JButton("식단추가");
+		bMenuD = new JButton("식단추가");
 	}
 
-	void homeOpen() {
+	public void homeOpen() { // 메인페이지 오픈
 		fHome.setLayout(null);
-		fHome.add(pWest1);
-		fHome.add(pWest2);
-		fHome.add(pWest3);
-		fHome.add(pWest4);
-		fHome.add(pWest5);
-		fHome.add(pWest6);
+		fHome.add(pDate);
+		fHome.setBackground(Color.white);
+		pDate.setLayout(new GridLayout(1,3));
+		pDate.setBounds(40, 120, 1340, 90);
+		pDate.setBackground(Color.cyan);
+		pDate.add(lDate);
+		lDate.setFont(f1);
+		fHome.add(pMenu);
+		pMenu.setBounds(40, 210, 1340, 260);
+		pMenu.setBackground(Color.yellow);
 		
-		pWest1.setBounds(0, 30, 370, 170);
-		pWest1.setBackground(Color.darkGray);
-		pWest4.setBounds(0, 200, 370, 170);
-		pWest4.setBackground(Color.darkGray);
-//		pWest1.setLayout(null);
-		pWest4.add(lbn1);
-		lbn1.setForeground(Color.white);
-		lbn1.setFont(f1);
-		pWest4.add(lbh);
-		lbh.setForeground(Color.white);
-		lbh.setFont(f2);
-		pWest4.add(tfh);
-		pWest4.add(lbw);
-		lbw.setForeground(Color.white);
-		lbw.setFont(f2);
-		pWest4.add(tfw);
-		pWest4.add(bEdit);
+		pMenu.add(pMenuB);
+		pMenuB.add(lMenuB);
+		pMenuB.add(bMenuB);
+		bMenuB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new PlusMenuFrame();
+			}
+		});
 		
-		pWest2.setBounds(0, 375, 370, 170);
-		pWest2.setBackground(Color.darkGray);
-		pWest5.setBounds(0, 545, 370, 170);
-		pWest5.setBackground(Color.darkGray);
-		
-		pWest3.setBounds(0, 720, 370, 170);
-		pWest3.setBackground(Color.darkGray);
-		pWest6.setBounds(0, 890, 370, 170);
-		pWest6.setBackground(Color.darkGray);
+		pMenu.add(pMenuL);
+		pMenuL.add(lMenuL);
+		pMenuL.add(bMenuL);
 
-		d = fHome.getSize();
+		pMenu.add(pMenuD);
+		pMenuD.add(lMenuD);
+		pMenuD.add(bMenuD);
+		JPanel pNuB[] = new JPanel[5];
+		for(int i = 0; i<pNuB.length; i++) {
+			pNuB[i] = new JPanel();
+		}
+		JPanel pNuL[] = new JPanel[5];
+		for(int i = 0; i<pNuL.length; i++) {
+			pNuL[i] = new JPanel();
+		}
+		JPanel pNuD[] = new JPanel[5];
+		for(int i = 0; i<pNuD.length; i++) {
+			pNuD[i] = new JPanel();
+		}
+		for(int i = 0; i<pNuB.length; i++) {
+			pMenuB.add(pNuB[i]);
+		}
+		for(int i = 0; i<pNuL.length; i++) {
+			pMenuL.add(pNuL[i]);
+		}
+		for(int i = 0; i<pNuD.length; i++) {
+			pMenuD.add(pNuD[i]);
+		}
+		
 		fHome.setSize(1440, 1024);
-		fHome.setLocation(0, 0);
 		fHome.setVisible(true);
-		fHome.addWindowListener(this);
+		fHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fHome.setVisible(true);
+		fHome.setLocationRelativeTo(null);
 	}
 
-	public void windowClosing(WindowEvent e) {
-		System.exit(0);
-	}
-
-	@Override
-	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }
