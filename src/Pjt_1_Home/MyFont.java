@@ -3,9 +3,11 @@ package Pjt_1_Home;
 import java.awt.Font;
 
 public class MyFont {
-	Font f1, f2;
+	Font f1, f2, f3, f2p;
 	MyFont(){
-		f1 = new Font("Inter", Font.PLAIN, 20);
-		f2 = new Font("Inter", Font.PLAIN, 15);
+		f1 = new Font("맑은 고딕", Font.PLAIN, 23);
+		f2 = new Font("맑은 고딕", Font.BOLD, 13); // 버튼용
+		f2p = new Font("맑은 고딕", Font.PLAIN, 13); // 버튼용
+		f3 = new Font("맑은 고딕", Font.BOLD, 15); // 메인페이지 이름용
 	}
 }

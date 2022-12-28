@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import Pjt_1_Home.HomeFrame;
+
 public class LoginDao {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521/xe";
@@ -18,6 +20,10 @@ public class LoginDao {
 	private Statement stmt;
 	ResultSet rs;
 	String query;
+	
+	public LoginDao(){
+		
+	}
 
 	LoginDao(String id) {
 		query = String.format("Select * from member where id = '%s'", id);
@@ -34,6 +40,7 @@ public class LoginDao {
 				String mempwd = rs.getString("PW");
 				LoginVo data = new LoginVo(memid, mempwd);
 				list.add(data);
+				
 			} else {
 				JOptionPane.showMessageDialog(null, "입력하신 아이디가 존재하지않습니다.","아이디 오류",JOptionPane.ERROR_MESSAGE);
 				System.out.println("입력하신 아이디가 틀렸습니다.");

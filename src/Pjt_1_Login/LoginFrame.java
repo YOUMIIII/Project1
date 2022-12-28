@@ -1,5 +1,6 @@
 package Pjt_1_Login;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,8 +39,11 @@ public class LoginFrame implements ActionListener {
 		btnLog = new JButton("로그인");
 		btnLog.setFont(mf.f2);
 		btnFindId = new JButton("아이디찾기");
+		btnFindId.setFont(mf.f2);
 		btnFindPw = new JButton("비밀번호찾기");
+		btnFindPw.setFont(mf.f2);
 		btnSign = new JButton("회원가입");
+		btnSign.setFont(mf.f2);
 	}
 
 	void loginOpen() {
@@ -77,17 +81,18 @@ public class LoginFrame implements ActionListener {
 				LoginDao dao = new LoginDao(tId.getText());
 				ArrayList<LoginVo> list = dao.list();
 				
-				String getpwd = "";
+				String getid = "", getpwd = "";
 				for (int i = 0; i < list.size(); i++) {
 					LoginVo data = (LoginVo) list.get(i);
-					
+					getid = data.getMemid();
 					getpwd = data.getMempwd();
 					
 					if (getpwd.equals(String.valueOf(tPw.getPassword()))) {
 //						System.out.println("로그인 되었습니다.");
-						fLog.setVisible(false);
 						HomeFrame hf = new HomeFrame();
+						hf.getId(getid);
 						hf.homeOpen();
+						fLog.setVisible(false);
 						break;
 					} else {
 						JOptionPane.showMessageDialog(null, "입력하신 비밀번호가 틀렸습니다.","비밀번호 오류",JOptionPane.ERROR_MESSAGE);
