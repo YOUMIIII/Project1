@@ -49,13 +49,16 @@ public class HomeFrame {
 		pMenuS2 = new JPanel();
 	}
 
-	public void getId(String id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+	public String getId() {
+		return id;
 	}
 
 	public void homeOpen() { // 메인페이지 오픈
 		fHome.setLayout(null);
-
+		System.out.println(id);
 		// 날짜 패널설정
 		fHome.add(pDate);
 		fHome.getContentPane().setBackground(Color.white); // JFrame은 배경색 지정시 getContentPane 메소드 필요
@@ -79,7 +82,8 @@ public class HomeFrame {
 		bMenuB.setFont(font.f2);
 		bMenuB.addActionListener(new ActionListener() { // 일단 아침,간식,점심,저녁 따로 프레임 만들어서 연결
 			public void actionPerformed(ActionEvent arg0) {
-				new PlusMenuFrameB();
+				PlusMenuFrameB pfb = new PlusMenuFrameB(id);
+//				pfb.getId(id);
 			}
 		});
 		pMenu.add(pMenuB);
@@ -91,7 +95,7 @@ public class HomeFrame {
 		bMenuS1.setFont(font.f2);
 		bMenuS1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new PlusMenuFrameB();
+//				new PlusMenuFrameB();
 			}
 		});
 		pMenuS1.add(bMenuS1);
@@ -103,7 +107,7 @@ public class HomeFrame {
 		bMenuL.setFont(font.f2);
 		bMenuL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new PlusMenuFrameB();
+//				new PlusMenuFrameB();
 			}
 		});
 		pMenuL.add(bMenuL);
@@ -115,7 +119,7 @@ public class HomeFrame {
 		bMenuS2.setFont(font.f2);
 		bMenuS2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new PlusMenuFrameB();
+//				new PlusMenuFrameB();
 			}
 		});
 		pMenuS2.add(bMenuS2);
@@ -127,7 +131,7 @@ public class HomeFrame {
 		bMenuD.setFont(font.f2);
 		bMenuD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new PlusMenuFrameB();
+//				new PlusMenuFrameB();
 			}
 		});
 		pMenuD.add(bMenuD);

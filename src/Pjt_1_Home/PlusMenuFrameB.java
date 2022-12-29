@@ -17,9 +17,10 @@ public class PlusMenuFrameB {
 	JPanel pMenu, pMain, pSide, pButton;
 	JList listMain, listSide;
 	RoundedButton bPMenu, bEnterMenu;
+	String id;
 	
 	
-	PlusMenuFrameB(){
+	PlusMenuFrameB(String id){
 		lMent = new JLabel();
 		lMain = new JLabel();
 		lSide = new JLabel();
@@ -33,10 +34,28 @@ public class PlusMenuFrameB {
 		bPMenu = new RoundedButton("메뉴 추가");
 		bEnterMenu = new RoundedButton("식단 등록");
 		
+		this.id = id;
 		openPlusMenuB();
 	}
+//	PlusMenuFrameB(){
+//		lMent = new JLabel();
+//		lMain = new JLabel();
+//		lSide = new JLabel();
+//		fPMenu = new JFrame("식단추가");
+//		pMenu = new JPanel();
+//		pMain = new JPanel();
+//		pSide = new JPanel();
+//		pButton = new JPanel();
+//		listMain = new JList();
+//		listSide = new JList();
+//		bPMenu = new RoundedButton("메뉴 추가");
+//		bEnterMenu = new RoundedButton("식단 등록");
+//		
+//		openPlusMenuB();
+//	}
 	
 	void openPlusMenuB(){
+		System.out.println(id);
 		//상단 멘트
 		fPMenu.add(lMent, "North");
 		lMent.setText("아침식단을 입력해 주세요!");
@@ -50,7 +69,7 @@ public class PlusMenuFrameB {
 //		pMain.setBackground(Color.yellow);
 		pMain.setLayout(new BorderLayout());
 		pMain.add(lMain, "North");
-		lMain.setText("ㆍ주메뉴(밥, 면, 덮밥 등)");
+		lMain.setText("ㆍ메인메뉴");
 		lMain.setFont(font.f3);
 		
 		//메인메뉴 리스트
@@ -62,7 +81,7 @@ public class PlusMenuFrameB {
 		pSide.setBounds(0, 190, 500, 180);
 		pSide.setLayout(new BorderLayout());
 		pSide.add(lSide, "North");
-		lSide.setText("ㆍ주메뉴(밥, 면, 덮밥 등)");
+		lSide.setText("ㆍ그 외");
 		lSide.setFont(font.f3);
 		
 		//사이드메뉴 리스트
@@ -76,7 +95,9 @@ public class PlusMenuFrameB {
 		bPMenu.setFont(font.f2);
 		bPMenu.addActionListener(new ActionListener() { // 메뉴 추가 버튼 리스너
 			public void actionPerformed(ActionEvent arg0) {
-				new PlusFoodFrame();
+				PlusFoodFrame pf = new PlusFoodFrame(id);
+//				pf.getId(id);
+				pf.openPlusFood();
 			}
 		});
 		pButton.add(bEnterMenu);
@@ -91,5 +112,9 @@ public class PlusMenuFrameB {
 		fPMenu.setResizable(false);
 		fPMenu.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
+	}
+	
+	void getId(String id) {
+		this.id = id;
 	}
 }

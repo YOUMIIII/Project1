@@ -1,7 +1,8 @@
 package Pjt_1_Home;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -11,90 +12,169 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-public class PlusFoodFrame {
+import Pjt_1_Login.LoginVo;
+
+public class PlusFoodFrame implements ActionListener {
+	//
+	HomeFrame hf;
+	
 	MyFont font = new MyFont();
 	JFrame fPFood;
-	JPanel pFood1, pFood2, pFood3, pFood4, pFood5, pRadio;
-	JCheckBox checkMS;
+	JPanel pFood;
+	JCheckBox[] checkMS;
 	JRadioButton rbMain, rbSide;
-	JLabel lSurvey1, lSurvey2, lSurvey3, lSurvey4, lSurvey5;
-	JTextField tFood;
-	
-	PlusFoodFrame(){ // 주/사이드, 메뉴이름, 영양소선택, 주 식재료1, 주 식재료2
-		
+	JLabel lEx, lSurvey1, lSurvey2, lSurvey3, lSurvey4, lSurvey5;
+	JTextField tFood, tIngredient1, tIngredient2;
+	String[] nutri = { "탄수화물", "단백질", "채소", "칼슘", "지방", "과일", "기타" };
+	RoundedButton bPlus;
+	int main = 0;
+	String id;
+
+	public PlusFoodFrame(String id) { // 주/사이드, 메뉴이름, 영양소선택, 주 식재료1, 주 식재료2
+		//
+		this.id = id;
+//		hf = new HomeFrame();
+
 		fPFood = new JFrame("메뉴 추가");
-		pFood1 = new JPanel();
-		pFood2 = new JPanel();
-		pFood3 = new JPanel();
-		pFood4 = new JPanel();
-		pFood5 = new JPanel();
-		pRadio = new JPanel();
-		lSurvey1 = new JLabel("주메뉴 / 반찬");
-		lSurvey2 = new JLabel("메뉴이름");
-		lSurvey3 = new JLabel("영양소");
-		lSurvey4 = new JLabel();
-		lSurvey5 = new JLabel();
-		rbMain = new JRadioButton("주메뉴");
-		rbSide = new JRadioButton("반찬");
+		pFood = new JPanel();
+		lEx = new JLabel("리스트에 추가하실 메뉴를 작성해주세요:)");
+		lSurvey1 = new JLabel("ㆍ메뉴");
+		lSurvey2 = new JLabel("ㆍ메뉴이름");
+		lSurvey3 = new JLabel("ㆍ영양소");
+		lSurvey4 = new JLabel("ㆍ주 식재료1");
+		lSurvey5 = new JLabel("ㆍ주 식재료2");
+		rbMain = new JRadioButton("메인메뉴(밥, 면, 덮밥 등)");
+		rbSide = new JRadioButton("그 외(반찬, 간식 등)");
 		tFood = new JTextField(15);
-		
-		//버튼 그룹설정
+		checkMS = new JCheckBox[7];
+		for (int i = 0; i < checkMS.length; i++) {
+			checkMS[i] = new JCheckBox(nutri[i]);
+		}
+		tIngredient1 = new JTextField();
+		tIngredient2 = new JTextField();
+		bPlus = new RoundedButton("추가");
+
+		// 라디오버튼 그룹설정
 		ButtonGroup jb = new ButtonGroup();
 		jb.add(rbMain);
 		jb.add(rbSide);
-		
-		openPlusFood();
-	}
-	
-	void openPlusFood() {
-		pFood1.setLayout(null);
-		
-		//작성1
-		lSurvey1.setBounds(10, 10, 100, 30);
-		rbMain.setBounds(10, 40, 100, 30);
-		rbSide.setBounds(100, 40, 100, 30);
-		lSurvey1.setFont(font.f2);
-		rbMain.setFont(font.f2p);
-		rbSide.setFont(font.f2p);
-		
-		//작성2
-		lSurvey2.setBounds(10, 80, 100, 30);
-		tFood.setBounds(10, 110, 100, 30);
-		lSurvey2.setFont(font.f2);
-		
-		//작성3
-		lSurvey3.setBounds(10, 150, 100, 30);
-		lSurvey3.setFont(font.f2);
-		
-		//작성4
-		
-		
-		
-		pFood1.add(rbSide);
-		pFood1.add(rbMain);
-		pFood1.add(lSurvey1);
-		pFood1.add(lSurvey2);
-		pFood1.add(lSurvey3);
-		pFood1.add(tFood);
 
-		
-		
-//		pFood2.setBounds(0, 87, 500, 87);
-//		fPFood.add(pFood2);
-//		pFood2.add(lSurvey2);
-//		pFood2.add(tFood);
-//		
-//		fPFood.add(pFood3);
-//		fPFood.add(pFood4);
-//		fPFood.add(pFood5);
-		//
-		fPFood.add(pFood1);
-		
-		//메뉴추가 프레임
+//		openPlusFood();
+	}
+
+	void openPlusFood() {
+		pFood.setLayout(null);
+
+		pFood.setBackground(Color.white);
+		lEx.setBounds(30, 10, 300, 30);
+		lEx.setFont(font.fExLabel);
+
+		// 작성1
+		lSurvey1.setBounds(30, 50, 200, 30);
+		rbMain.setBounds(40, 80, 200, 30);
+		rbSide.setBounds(260, 80, 150, 30);
+		lSurvey1.setFont(font.fPlusLabel);
+		rbMain.setFont(font.f2p);
+		rbMain.setBackground(Color.white);
+		rbMain.addActionListener(this); // 메인메뉴버튼 리스너
+		rbSide.setFont(font.f2p);
+		rbSide.setBackground(Color.white);
+
+		// 작성2
+		lSurvey2.setBounds(30, 110, 200, 30);
+		lSurvey2.setFont(font.fPlusLabel);
+		tFood.setBounds(40, 145, 100, 25);
+
+		// 작성3
+		lSurvey3.setBounds(30, 175, 200, 30);
+		lSurvey3.setFont(font.fPlusLabel);
+		checkMS[0].setBounds(40, 205, 80, 30);
+		checkMS[0].setFont(font.f2p);
+		checkMS[1].setBounds(130, 205, 80, 30);
+		checkMS[1].setFont(font.f2p);
+		checkMS[2].setBounds(220, 205, 60, 30);
+		checkMS[2].setFont(font.f2p);
+		checkMS[3].setBounds(290, 205, 80, 30);
+		checkMS[3].setFont(font.f2p);
+		checkMS[4].setBounds(370, 205, 80, 30);
+		checkMS[4].setFont(font.f2p);
+		checkMS[5].setBounds(40, 235, 80, 30);
+		checkMS[5].setFont(font.f2p);
+		checkMS[6].setBounds(130, 235, 80, 30);
+		checkMS[6].setFont(font.f2p);
+		for (int i = 0; i < checkMS.length; i++) {
+			checkMS[i].setBackground(Color.white);
+			checkMS[i].addActionListener(this);
+		}
+
+		// 작성4
+		lSurvey4.setBounds(30, 265, 200, 30);
+		lSurvey4.setFont(font.fPlusLabel);
+		tIngredient1.setBounds(40, 300, 100, 25);
+
+		// 작성5
+		lSurvey5.setBounds(30, 330, 200, 30);
+		lSurvey5.setFont(font.fPlusLabel);
+		tIngredient2.setBounds(40, 360, 100, 25);
+
+		bPlus.setBounds(210, 405, 50, 30);
+		bPlus.setFont(font.f2);
+		bPlus.addActionListener(this); // 추가버튼 리스너
+
+		pFood.add(lEx);
+		pFood.add(lSurvey1);
+		pFood.add(rbSide);
+		pFood.add(rbMain);
+		pFood.add(lSurvey2);
+		pFood.add(tFood);
+		pFood.add(lSurvey3);
+		for (int i = 0; i < checkMS.length; i++) {
+			pFood.add(checkMS[i]);
+		}
+		pFood.add(lSurvey4);
+		pFood.add(tIngredient1);
+		pFood.add(lSurvey5);
+		pFood.add(tIngredient2);
+		pFood.add(bPlus);
+
+		fPFood.add(pFood);
+
+		// 메뉴추가 프레임
 		fPFood.setSize(500, 520);
 		fPFood.setLocationRelativeTo(null);
 		fPFood.setResizable(false);
 		fPFood.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		fPFood.setVisible(true);
+	}
+
+//	public void getId(String id) {
+//		this.id = id;
+//	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String s = e.getActionCommand();
+		if (s.equals("추가")) {
+			int main = 0;
+			if (rbMain.isSelected()) {
+				main = 1;
+			}
+			String menu = tFood.getText();
+			int[] nutri = new int[7];
+			for (int i = 0; i < checkMS.length; i++) {
+				if (checkMS[i].isSelected()) {
+					nutri[i] = 1;
+				} else {
+					nutri[i] = 0;
+				}
+			}
+			String ingredient1 = tIngredient1.getText();
+			String ingredient2 = tIngredient2.getText();
+			
+			String sql = "insert into food values('" + id + "','" + main + "','" + menu + "','" + nutri[0] + "','"
+					+ nutri[1] + "','" + nutri[2] + "','" + nutri[3] + "','" + nutri[4] + "','" + nutri[5] + "','"
+					+ nutri[6] + "','" + ingredient1 + "','" + ingredient2 + "')";
+			new MenuDao(sql);
+		}
 	}
 }
