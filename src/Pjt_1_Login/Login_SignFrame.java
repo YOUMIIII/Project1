@@ -2,10 +2,7 @@ package Pjt_1_Login;
 
 import java.awt.Choice;
 import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -15,36 +12,29 @@ import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import Pjt_1_Home.RoundedButton;
+
 public class Login_SignFrame extends WindowAdapter {
-	Toolkit tk = Toolkit.getDefaultToolkit();
-	Dimension screenSize = tk.getScreenSize();
-	Dimension d;
 	Frame fSign;
 	JLabel lId, lPw, lRePw, lBirth, lEmail;
 	JTextField tId, tPw, tRePw, tYear, tEmail;
-	JButton btnSign, ok;
+	RoundedButton btnSign, btnCheckId;
 	Choice cMonth, cDay;
 	String id, pw, repw, email, birth;
 	int year, month, day;
 	Dialog error = new Dialog(fSign, "회원가입 오류", true);
 	JLabel msg = new JLabel("");
+	MyFont font = new MyFont();
 
 	Login_SignFrame() {
 		fSign = new Frame("회원가입");
-		fSign.addWindowListener(this);
-		fSign.setSize(495, 510);
-		d = fSign.getSize();
-		fSign.setLocationRelativeTo(null);
-		;
-
-		lId = new JLabel("아이디(영문 소문자, 숫자, 특수문자 혼합가능 6~12자 사용)");
-		lPw = new JLabel("비밀번호(영문 소문자, 숫자, 특수문자 혼합가능 6~12자 사용)");
+		lId = new JLabel("아이디"); // (영문 소문자, 숫자, 특수문자 혼합가능 6~12자 사용)
+		lPw = new JLabel("비밀번호"); // 영문 소문자, 숫자, 특수문자 혼합가능 6~12자 사용
 		tId = new JTextField(25);
 		tPw = new JPasswordField(25);
 		lRePw = new JLabel("비밀번호 재확인");
@@ -58,15 +48,45 @@ public class Login_SignFrame extends WindowAdapter {
 		cDay = new Choice();
 		lEmail = new JLabel("본인 확인 이메일");
 		tEmail = new JTextField(50);
-		btnSign = new JButton("가입하기");
-		ok = new JButton("확인");
+		btnSign = new RoundedButton("가입하기");
+		btnCheckId = new RoundedButton("중복확인");
 
+		signOpen();
 	}
 
 	void signOpen() {
 		fSign.setLayout(null);
+		lId.setBounds(50, 80, 65, 35); // Y축 65씩
+		tId.setBounds(50, 110, 250, 25); // label, tf y차이 30
+		btnCheckId.setBounds(320, 105, 75, 30);
+		lPw.setBounds(50, 145, 65, 35);
+		tPw.setBounds(50, 175, 350, 25);
+		lRePw.setBounds(50, 210, 200, 35);
+		tRePw.setBounds(50, 240, 350, 25);
+		lBirth.setBounds(50, 275, 200, 35);
+		tYear.setBounds(50, 310, 70, 23);
+		cMonth.setBounds(130, 310, 60, 25);
+		cDay.setBounds(200, 310, 60, 25);
+		lEmail.setBounds(50, 340, 200, 35);
+		tEmail.setBounds(50, 370, 350, 25);
+		btnSign.setBounds(180, 420, 90, 30);
+
+		lId.setFont(font.fLogLabel);
+		lPw.setFont(font.fLogLabel);
+		lRePw.setFont(font.fLogLabel);
+		lBirth.setFont(font.fLogLabel);
+		lEmail.setFont(font.fLogLabel);
+		btnSign.setFont(font.f2);
+		btnCheckId.setFont(font.f2);
+
 		fSign.add(lId);
 		fSign.add(tId);
+		fSign.add(btnCheckId);
+		btnCheckId.addActionListener(new ActionListener() { // 가입하기 버튼 리스너
+			public void actionPerformed(ActionEvent e) {
+				new IdCheckDao(tId.getText());
+			}
+		});
 		fSign.add(lPw);
 		fSign.add(tPw);
 		fSign.add(lRePw);
@@ -86,7 +106,7 @@ public class Login_SignFrame extends WindowAdapter {
 																						// choice 작성
 						cDay.add(i + "");
 					}
-				} catch (Exception ee) {
+				} catch (Exception ee) { // 년도를 입력하지 않고 바로 월이나 일을 선택할 경우
 					JOptionPane.showMessageDialog(null, "년도를 먼저 입력해야합니다!", "잠깐만요!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
@@ -95,53 +115,62 @@ public class Login_SignFrame extends WindowAdapter {
 		fSign.add(lEmail);
 		fSign.add(tEmail);
 		fSign.add(btnSign);
-		btnSign.addActionListener(new ActionListener() {
+		btnSign.addActionListener(new ActionListener() { // 가입하기 버튼 리스너
 			public void actionPerformed(ActionEvent e) {
-				id = tId.getText();
-				pw = tPw.getText();
-				repw = tRePw.getText();
-				year = Integer.parseInt(tYear.getText());
-				month = Integer.parseInt(cMonth.getSelectedItem());
-				day = Integer.parseInt(cDay.getSelectedItem());
-				birth = year + "-" + month + "-" + day;
-				email = tEmail.getText();
-				error.setSize(290, 110);
-				d = error.getSize();
-				error.setLocation((screenSize.width - (int) (d.getWidth())) / 2,
-						(screenSize.height - (int) (d.getHeight())) / 2);
-				error.setLayout(new FlowLayout());
+				try {
+					id = tId.getText();
+					pw = tPw.getText();
+					repw = tRePw.getText();
+					year = Integer.parseInt(tYear.getText());
+					month = Integer.parseInt(cMonth.getSelectedItem());
+					day = Integer.parseInt(cDay.getSelectedItem());
+					birth = year + "-" + month + "-" + day;
+					email = tEmail.getText();
 
-				if (id.length() < 6 || id.length() > 12) {
-					JOptionPane.showMessageDialog(null, "아이디의 글자수를 한번 더 확인해주세요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
-				} else if (pw.length() < 6 || pw.length() > 12) {
-					JOptionPane.showMessageDialog(null, "비밀번호의 글자수를 한번 더 확인해주세요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
-				} else if (!(pw.equals(repw))) {
-					JOptionPane.showMessageDialog(null, "입력하신 비밀번호가 일치하지 않습니다!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
-				} else if (!(isEmail(email))) {
-					JOptionPane.showMessageDialog(null, "입력하신 이메일의 형식이 올바르지 않습니다!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
-				} else if (year < 1000 || tYear.getText().equals(null)) {
-					JOptionPane.showMessageDialog(null, "입력하신 생일 형식이 올바르지 않습니다!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
-				} else {
-					String sql = "insert into member values ('" + id + "','" + pw + "','" + birth + "','" + email + "')";
-					new MemDao(sql);
-					fSign.setVisible(false);
+					if (id.length() < 6 || id.length() > 12) {
+						JOptionPane.showMessageDialog(null, "아이디의 글자수를 한번 더 확인해주세요!", "잠깐만요!",
+								JOptionPane.ERROR_MESSAGE);
+					} else if (pw.length() < 6 || pw.length() > 12) {
+						JOptionPane.showMessageDialog(null, "비밀번호의 글자수를 한번 더 확인해주세요!", "잠깐만요!",
+								JOptionPane.ERROR_MESSAGE);
+					} else if (!(pw.equals(repw))) {
+						JOptionPane.showMessageDialog(null, "입력하신 비밀번호가 일치하지 않습니다!", "잠깐만요!",
+								JOptionPane.ERROR_MESSAGE);
+					} else if (!(isEmail(email))) {
+						JOptionPane.showMessageDialog(null, "입력하신 이메일의 형식이 올바르지 않습니다!", "잠깐만요!",
+								JOptionPane.ERROR_MESSAGE);
+					} else if (year < 1000 || tYear.getText().equals(null)) {
+						JOptionPane.showMessageDialog(null, "입력하신 생일 형식이 올바르지 않습니다!", "잠깐만요!",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						String sql = "insert into member values ('" + id + "','" + pw + "','" + birth + "','" + email
+								+ "')";
+						new MemDao(sql);
+						fSign.setVisible(false);
+					}
+				} catch (NumberFormatException ee) { // 작성이 안 된 부분이 있으면 경고창
+//					System.out.println("아직 작성 덜됨");
+					JOptionPane.showMessageDialog(null, "작성을 완료 후 가입하기 버튼을 클릭해주세요!", "잠깐만요!",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 
+		fSign.setSize(450, 520);
+		fSign.addWindowListener(this);
+		fSign.setLocationRelativeTo(null);
 		fSign.setVisible(true);
 	}
 
-	public void windowClosing(WindowEvent e) {
+	public void windowClosing(WindowEvent e) { // 회원가입 창 종료하면 다시 로그인 창 오픈
 		fSign.setVisible(false);
-		LoginFrame lf = new LoginFrame();
-		lf.loginOpen();
+		new LoginFrame();
+
 	}
 
-	void signClose() {
+	public void signClose() {
 		fSign.setVisible(false);
-		LoginFrame lf = new LoginFrame();
-		lf.loginOpen();
+		new LoginFrame();
 	}
 
 	public boolean isEmail(String str) {

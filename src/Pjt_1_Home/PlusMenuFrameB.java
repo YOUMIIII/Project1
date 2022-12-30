@@ -34,28 +34,12 @@ public class PlusMenuFrameB {
 		bPMenu = new RoundedButton("메뉴 추가");
 		bEnterMenu = new RoundedButton("식단 등록");
 		
-		this.id = id;
+		this.id = id; // 전달받은 id 지역변수로 삽입
 		openPlusMenuB();
 	}
-//	PlusMenuFrameB(){
-//		lMent = new JLabel();
-//		lMain = new JLabel();
-//		lSide = new JLabel();
-//		fPMenu = new JFrame("식단추가");
-//		pMenu = new JPanel();
-//		pMain = new JPanel();
-//		pSide = new JPanel();
-//		pButton = new JPanel();
-//		listMain = new JList();
-//		listSide = new JList();
-//		bPMenu = new RoundedButton("메뉴 추가");
-//		bEnterMenu = new RoundedButton("식단 등록");
-//		
-//		openPlusMenuB();
-//	}
 	
 	void openPlusMenuB(){
-		System.out.println(id);
+		System.out.println(id); //받은 id 제대로 출력됨
 		//상단 멘트
 		fPMenu.add(lMent, "North");
 		lMent.setText("아침식단을 입력해 주세요!");
@@ -96,7 +80,6 @@ public class PlusMenuFrameB {
 		bPMenu.addActionListener(new ActionListener() { // 메뉴 추가 버튼 리스너
 			public void actionPerformed(ActionEvent arg0) {
 				PlusFoodFrame pf = new PlusFoodFrame(id);
-//				pf.getId(id);
 				pf.openPlusFood();
 			}
 		});

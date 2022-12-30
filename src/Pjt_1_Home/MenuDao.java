@@ -31,7 +31,7 @@ public class MenuDao {
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
-			JOptionPane.showMessageDialog(null, "이미 작성하신 메뉴예요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "이미 작성하신 메뉴이거나 메뉴이름을 확인해주세요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

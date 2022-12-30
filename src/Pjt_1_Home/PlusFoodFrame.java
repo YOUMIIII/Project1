@@ -33,7 +33,6 @@ public class PlusFoodFrame implements ActionListener {
 	public PlusFoodFrame(String id) { // 주/사이드, 메뉴이름, 영양소선택, 주 식재료1, 주 식재료2
 		//
 		this.id = id;
-//		hf = new HomeFrame();
 
 		fPFood = new JFrame("메뉴 추가");
 		pFood = new JPanel();
@@ -59,10 +58,12 @@ public class PlusFoodFrame implements ActionListener {
 		jb.add(rbMain);
 		jb.add(rbSide);
 
-//		openPlusFood();
 	}
 
 	void openPlusFood() {
+		//
+		System.out.println(id);
+		
 		pFood.setLayout(null);
 
 		pFood.setBackground(Color.white);
@@ -147,9 +148,6 @@ public class PlusFoodFrame implements ActionListener {
 		fPFood.setVisible(true);
 	}
 
-//	public void getId(String id) {
-//		this.id = id;
-//	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

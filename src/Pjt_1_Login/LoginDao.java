@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import Pjt_1_Home.HomeFrame;
+//import Pjt_1_Home.HomeFrame;
 
 public class LoginDao {
 	String driver = "oracle.jdbc.driver.OracleDriver";
