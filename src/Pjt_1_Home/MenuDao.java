@@ -17,7 +17,7 @@ public class MenuDao {
 	private Connection con;
 	private Statement stmt;
 	ResultSet rs;
-	String query;
+//	String query;
 
 	MenuDao(String sql) {
 		try {

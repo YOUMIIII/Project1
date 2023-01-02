@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 
 import Pjt_1_Home.RoundedButton;
 
-public class Login_SignFrame extends WindowAdapter {
+public class Login_SignFrame extends WindowAdapter implements ActionListener {
 	Frame fSign;
 	JLabel lId, lPw, lRePw, lBirth, lEmail;
 	JTextField tId, tPw, tRePw, tYear, tEmail;
@@ -82,11 +82,7 @@ public class Login_SignFrame extends WindowAdapter {
 		fSign.add(lId);
 		fSign.add(tId);
 		fSign.add(btnCheckId);
-		btnCheckId.addActionListener(new ActionListener() { // 가입하기 버튼 리스너
-			public void actionPerformed(ActionEvent e) {
-				new IdCheckDao(tId.getText());
-			}
-		});
+		btnCheckId.addActionListener(this);
 		fSign.add(lPw);
 		fSign.add(tPw);
 		fSign.add(lRePw);
@@ -115,47 +111,7 @@ public class Login_SignFrame extends WindowAdapter {
 		fSign.add(lEmail);
 		fSign.add(tEmail);
 		fSign.add(btnSign);
-		btnSign.addActionListener(new ActionListener() { // 가입하기 버튼 리스너
-			public void actionPerformed(ActionEvent e) {
-				try {
-					id = tId.getText();
-					pw = tPw.getText();
-					repw = tRePw.getText();
-					year = Integer.parseInt(tYear.getText());
-					month = Integer.parseInt(cMonth.getSelectedItem());
-					day = Integer.parseInt(cDay.getSelectedItem());
-					birth = year + "-" + month + "-" + day;
-					email = tEmail.getText();
-
-					if (id.length() < 6 || id.length() > 12) {
-						JOptionPane.showMessageDialog(null, "아이디의 글자수를 한번 더 확인해주세요!", "잠깐만요!",
-								JOptionPane.ERROR_MESSAGE);
-					} else if (pw.length() < 6 || pw.length() > 12) {
-						JOptionPane.showMessageDialog(null, "비밀번호의 글자수를 한번 더 확인해주세요!", "잠깐만요!",
-								JOptionPane.ERROR_MESSAGE);
-					} else if (!(pw.equals(repw))) {
-						JOptionPane.showMessageDialog(null, "입력하신 비밀번호가 일치하지 않습니다!", "잠깐만요!",
-								JOptionPane.ERROR_MESSAGE);
-					} else if (!(isEmail(email))) {
-						JOptionPane.showMessageDialog(null, "입력하신 이메일의 형식이 올바르지 않습니다!", "잠깐만요!",
-								JOptionPane.ERROR_MESSAGE);
-					} else if (year < 1000 || tYear.getText().equals(null)) {
-						JOptionPane.showMessageDialog(null, "입력하신 생일 형식이 올바르지 않습니다!", "잠깐만요!",
-								JOptionPane.ERROR_MESSAGE);
-					} else {
-						String sql = "insert into member values ('" + id + "','" + pw + "','" + birth + "','" + email
-								+ "')";
-						new MemDao(sql);
-						fSign.setVisible(false);
-					}
-				} catch (NumberFormatException ee) { // 작성이 안 된 부분이 있으면 경고창
-//					System.out.println("아직 작성 덜됨");
-					JOptionPane.showMessageDialog(null, "작성을 완료 후 가입하기 버튼을 클릭해주세요!", "잠깐만요!",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-
+		btnSign.addActionListener(this);
 		fSign.setSize(450, 520);
 		fSign.addWindowListener(this);
 		fSign.setLocationRelativeTo(null);
@@ -175,5 +131,49 @@ public class Login_SignFrame extends WindowAdapter {
 
 	public boolean isEmail(String str) {
 		return Pattern.matches("^[a-z0-9A-Z._-]*@[a-z0-9A-Z]*.[a-zA-Z.]*$", str);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("중복확인")) {
+			new IdCheckDao(tId.getText());
+		}else if(e.getActionCommand().equals("가입하기")) {
+			try {
+				id = tId.getText();
+				pw = tPw.getText();
+				repw = tRePw.getText();
+				year = Integer.parseInt(tYear.getText());
+				month = Integer.parseInt(cMonth.getSelectedItem());
+				day = Integer.parseInt(cDay.getSelectedItem());
+				birth = year + "-" + month + "-" + day;
+				email = tEmail.getText();
+
+				if (id.length() < 6 || id.length() > 12) {
+					JOptionPane.showMessageDialog(null, "아이디의 글자수를 한번 더 확인해주세요!", "잠깐만요!",
+							JOptionPane.ERROR_MESSAGE);
+				} else if (pw.length() < 6 || pw.length() > 12) {
+					JOptionPane.showMessageDialog(null, "비밀번호의 글자수를 한번 더 확인해주세요!", "잠깐만요!",
+							JOptionPane.ERROR_MESSAGE);
+				} else if (!(pw.equals(repw))) {
+					JOptionPane.showMessageDialog(null, "입력하신 비밀번호가 일치하지 않습니다!", "잠깐만요!",
+							JOptionPane.ERROR_MESSAGE);
+				} else if (!(isEmail(email))) {
+					JOptionPane.showMessageDialog(null, "입력하신 이메일의 형식이 올바르지 않습니다!", "잠깐만요!",
+							JOptionPane.ERROR_MESSAGE);
+				} else if (year < 1000 || tYear.getText().equals(null)) {
+					JOptionPane.showMessageDialog(null, "입력하신 생일 형식이 올바르지 않습니다!", "잠깐만요!",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					String sql = "insert into member values ('" + id + "','" + pw + "','" + birth + "','" + email
+							+ "')";
+					new MemDao(sql);
+					fSign.setVisible(false);
+				}
+			} catch (NumberFormatException ee) { // 작성이 안 된 부분이 있으면 경고창
+//				System.out.println("아직 작성 덜됨");
+				JOptionPane.showMessageDialog(null, "작성을 완료 후 가입하기 버튼을 클릭해주세요!", "잠깐만요!",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }

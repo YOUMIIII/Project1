@@ -12,7 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import Pjt_1_Login.LoginVo;
+import Pjt_1_ConnectServer.ConnectTest;
+//import Pjt_1_Login.LoginVo;
 
 public class PlusFoodFrame implements ActionListener {
 	//
@@ -172,7 +173,11 @@ public class PlusFoodFrame implements ActionListener {
 			String sql = "insert into food values('" + id + "','" + main + "','" + menu + "','" + nutri[0] + "','"
 					+ nutri[1] + "','" + nutri[2] + "','" + nutri[3] + "','" + nutri[4] + "','" + nutri[5] + "','"
 					+ nutri[6] + "','" + ingredient1 + "','" + ingredient2 + "')";
-			new MenuDao(sql);
+			ConnectTest conTest = new ConnectTest();
+			conTest.plusList(sql);
+			fPFood.setVisible(false);
+			new PlusMenuFrameB(id);
+//			new MenuDao(sql);
 		}
 	}
 }

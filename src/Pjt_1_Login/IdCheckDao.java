@@ -1,36 +1,39 @@
 package Pjt_1_Login;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.ResultSet;
+//import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-public class IdCheckDao {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521/xe";
-	String user = "c##green";
-	String password = "green1234";
+import Pjt_1_ConnectServer.ConnectTest;
 
-	private Connection con;
-	private Statement stmt;
-	ResultSet rs;
+public class IdCheckDao {
+//	String driver = "oracle.jdbc.driver.OracleDriver";
+//	String url = "jdbc:oracle:thin:@localhost:1521/xe";
+//	String user = "c##green";
+//	String password = "green1234";
+//
+//	private Connection con;
+//	private Statement stmt;
+//	ResultSet rs;
+	ConnectTest cont = new ConnectTest();
 	String query;
 
 	public IdCheckDao() {
 
 	}
 
-	IdCheckDao(String id) {
+	public IdCheckDao(String id) {
 		query = String.format("Select * from member where id = '%s'", id);
 
 		try {
-			connDB();
-			rs = stmt.executeQuery(query);
+			cont.connDB();
+			cont.rs = cont.stmt.executeQuery(query);
 
-			if (rs.next()) {
-				String memid = rs.getString("ID");
+			if (cont.rs.next()) {
+				String memid = cont.rs.getString("ID");
 				if (memid.equals(id)) {
 					JOptionPane.showMessageDialog(null, "이미 사용중인 아이디 입니다.", "중복확인", JOptionPane.ERROR_MESSAGE);
 				}
@@ -47,16 +50,5 @@ public class IdCheckDao {
 		}
 	}
 
-	public void connDB() {
-		try {
-			Class.forName(driver);
-			System.out.println("jdbc driver loading success");
-			con = DriverManager.getConnection(url, user, password);
-			System.out.println("oracle connection success.");
-			stmt = con.createStatement();
-			System.out.println("statement create success.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 }
