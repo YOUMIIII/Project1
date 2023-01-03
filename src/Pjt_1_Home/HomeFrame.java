@@ -1,8 +1,10 @@
 package Pjt_1_Home;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Panel;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import Pjt_1_ConnectServer.ConnectTest;
 import Pjt_1_Login.LoginFrame;
 import Pjt_1_Refridge.RefridgeFrame;
 
 public class HomeFrame {
 //	Date today = new Date();
 //	SimpleDateFormat dateFormat1 = new SimpleDateFormat("YY년 MM월 dd일(E)", Locale.KOREA);
-
+	ConnectTest con = new ConnectTest();
+	
 	Calendar now = Calendar.getInstance();
 	String format = "YY년 MM월 dd일(E)";
 	SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -35,14 +39,19 @@ public class HomeFrame {
 	JPanel pDate, pBar, pLabel, pNorthBar;
 	JLabel lId, lDate, lDateY, lDateYY, lMenuB, lMenuL, lMenuD, lMenu1, lMenu2;
 	TextField tfh, tfw;
-	RoundedButton bMenuB, bMenuL, bMenuD, bMenuS1, bMenuS2, bFrid, bLogout;
+	RoundedButton bMenuB, bMenuL, bMenuD, bMenuS1, bMenuS2, bFrid, bLogout, bEditB;
 	String id;
 	String[] nutri = { "탄수화물", "단백질", "채소", "칼슘", "지방", "과일", "기타" };
 	JPanel[] pNutri;
 	Color[] cNutri;
-	JLabel[] lNutri;
+	JLabel[] lNutri, lMenu;
 
 	LineBorder bb = new LineBorder(Color.gray, 1, false);
+	
+	CardLayout card = new CardLayout();
+	Panel card1 = new Panel();
+	Panel card2 = new Panel();
+
 
 	public HomeFrame() {
 //		System.out.println(id); // 아이디 null
@@ -71,6 +80,7 @@ public class HomeFrame {
 		bMenuD = new RoundedButton("식단추가");
 		bMenuS1 = new RoundedButton("식단추가");
 		bMenuS2 = new RoundedButton("식단추가");
+		bEditB = new RoundedButton("식단수정");
 		pBar = new JPanel();
 		pNorthBar = new JPanel();
 		lId = new JLabel();
@@ -88,6 +98,9 @@ public class HomeFrame {
 		cNutri[4] = new Color(186,0,252);
 		cNutri[5] = new Color(255,137,187);
 		cNutri[6] = new Color(2,79,151);
+		lMenu = new JLabel[5];
+		
+
 	}
 
 	public void setId(String id) { // loginframe에서 id 받아서 this.id에 셋팅
@@ -158,11 +171,33 @@ public class HomeFrame {
 		mYYesterday.pMenu.setBounds(1030, 40, 330, 1000);
 		
 		bMenuB.setFont(font.f2);
+		
+		//
+		
+		String sqlb = String.format("select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, lDate.getText(), 1);
+		String[] menu = con.bringMenu(sqlb);
+		System.out.println(menu);
+		for(int i = 0; i<menu.length; i++) {
+			lMenu[i] = new JLabel();
+			lMenu[i].setText(menu[i]);
+			lMenu[i].setFont(font.fPlusMenuList);
+		}
+//		mToday.pMenuB.setLayout(card);
+//		card1.setBackground(Color.LIGHT_GRAY);
+//		card2.setBackground(Color.orange);
+//		card2.add(bEditB);
+//		mToday.pMenuB.add(card1,"1");
+//		mToday.pMenuB.add(card2,"2");
+//		card1.add(bMenuB);
+		
 		bMenuB.addActionListener(new ActionListener() { // 일단 아침,간식,점심,저녁 따로 프레임 만들어서 연결
 			public void actionPerformed(ActionEvent arg0) {
 				new PlusMenuFrameB(id); // id를 넣어서 다음프레임으로 값 전달
+				fHome.setVisible(false);
 			}
 		});
+		
+//		mToday.pMenuB.add(bMenuB);
 		bMenuS1.setFont(font.f2);
 		bMenuS1.addActionListener(new ActionListener() { // 일단 아침,간식,점심,저녁 따로 프레임 만들어서 연결
 			public void actionPerformed(ActionEvent arg0) {
@@ -292,6 +327,9 @@ public class HomeFrame {
 		for(int i = 0 ; i<nutri.length; i++) {
 			pNorthBar.add(pNutri[i]);
 			pNorthBar.add(lNutri[i]);
+		}
+		for(int i = 0; i<menu.length; i++) {
+			mToday.pMenuB.add(lMenu[i]);
 		}
 
 		mToday.pDate.add(lDate, "Center");

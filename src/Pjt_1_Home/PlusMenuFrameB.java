@@ -1,12 +1,11 @@
 package Pjt_1_Home;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -17,22 +16,27 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import Pjt_1_ConnectServer.ConnectTest;
+import Pjt_1_Home.HomeFrame;
+import Pjt_1_Home.MenuFrame;
 
 public class PlusMenuFrameB {
+	Calendar now = Calendar.getInstance();
+	String format = "YY년 MM월 dd일(E)";
+	SimpleDateFormat sdf = new SimpleDateFormat(format);
+
 	MyFont font = new MyFont();
 	JFrame fPMenu;
 	JLabel lMent, lMain, lSide;
 	JPanel pMenu, pMain, pSide, pButton;
 	JList listMain, listSide;
 	RoundedButton bPMenu, bEnterMenu;
-	String id, sqlm, sqls;
+	String id, sqlm, sqls, today, menuName;
+	int when;
 	JScrollPane scrollMain, scrollSide;
-	String[] mains, sides;
+	String[] mains, sides, menu;
 	ConnectTest conTest = new ConnectTest();
-	
-	
-	
-	PlusMenuFrameB(String id){
+
+	PlusMenuFrameB(String id) {
 		lMent = new JLabel();
 		lMain = new JLabel();
 		lSide = new JLabel();
@@ -51,45 +55,45 @@ public class PlusMenuFrameB {
 		bEnterMenu = new RoundedButton("식단 등록");
 		scrollMain = new JScrollPane(listMain);
 		scrollSide = new JScrollPane(listSide);
-		
+
 		this.id = id; // 전달받은 id 지역변수로 삽입
 		openPlusMenuB();
 	}
-	
-	void openPlusMenuB(){
-		//받은 id 제대로 출력됨 확인
+
+	void openPlusMenuB() {
+		// 받은 id 제대로 출력됨 확인
 //		System.out.println(id);
-		
-		//상단 멘트
+
+		// 상단 멘트
 		lMent.setText("식단을 등록해주세요:)");
 		lMent.setFont(font.f3);
-		
-		//메인메뉴 레이블
+
+		// 메인메뉴 레이블
 		pMenu.setLayout(null);
 		pMain.setBounds(0, 10, 500, 180);
 //		pMain.setBackground(Color.yellow);
 		pMain.setLayout(new BorderLayout());
 		lMain.setText("ㆍ메인메뉴");
 		lMain.setFont(font.fPlusLabel);
-		
-		//메인메뉴 리스트
+
+		// 메인메뉴 리스트
 		listMain.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listMain.setFont(font.fPlusMenuList);
-		scrollMain.setBorder(BorderFactory.createEmptyBorder(0,0,0,20));
-		
-		//사이드메뉴 레이블
+		scrollMain.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+
+		// 사이드메뉴 레이블
 //		pSide.setBackground(Color.cyan);
 		pSide.setBounds(0, 190, 500, 180);
 		pSide.setLayout(new BorderLayout());
 		lSide.setText("ㆍ그 외");
 		lSide.setFont(font.fPlusLabel);
-		
-		//사이드메뉴 리스트
+
+		// 사이드메뉴 리스트
 		listSide.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		listSide.setFont(font.fPlusMenuList);
-		scrollSide.setBorder(BorderFactory.createEmptyBorder(0,0,0,20));
-		
-		//버튼 패널
+		scrollSide.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+
+		// 버튼 패널
 //		pButton.setBackground(Color.white);
 		pButton.setBounds(0, 385, 500, 80);
 		bPMenu.setFont(font.f2);
@@ -101,31 +105,52 @@ public class PlusMenuFrameB {
 			}
 		});
 		bEnterMenu.setFont(font.f2);
-		
-		
-		
-		//아침 식단 추가 프레임
+		bEnterMenu.addActionListener(new ActionListener() { // 식단 등록 버튼 리스너
+			public void actionPerformed(ActionEvent arg0) {
+				today = sdf.format(now.getTime());
+				when = 1;
+				menuName = (String) listMain.getSelectedValue();
+				String sql = "insert into todaymenu values('" + id + "','" + today + "','" + when + "','" + menuName
+						+ "')";
+				ConnectTest con = new ConnectTest();
+				con.plusMenu(sql);
+
+				List<String> ls = listSide.getSelectedValuesList();
+				for (String value : ls) {
+					sql = "insert into todaymenu values('" + id + "','" + today + "','" + when + "','" + value + "')";
+					con = new ConnectTest();
+					con.plusMenu(sql);
+				}
+//				String sqlb = String.format("select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, today, 1);
+//				menu = con.bringMenu(sqlb);
+				HomeFrame hf = new HomeFrame();
+				hf.setId(id);
+				hf.homeOpen();
+				fPMenu.setVisible(false);
+			}
+		});
+
+		// 아침 식단 추가 프레임
 		pMain.add(lMain, "North");
 		fPMenu.add(lMent, "North");
-		fPMenu.add(pMenu,"Center");
+		fPMenu.add(pMenu, "Center");
 		pMenu.add(pMain);
 		pMain.add(scrollMain, "Center");
 		pMenu.add(pSide);
 		pSide.add(lSide, "North");
-		pSide.add(scrollSide,"Center");
+		pSide.add(scrollSide, "Center");
 		pMenu.add(pButton);
 		pButton.add(bPMenu);
 		pButton.add(bEnterMenu);
-		
+
 		fPMenu.setSize(500, 520);
 		fPMenu.setLocationRelativeTo(null);
 		fPMenu.setResizable(false);
 		fPMenu.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		fPMenu.setVisible(true);
-		
-		
+
 	}
-	
+
 //	void getId(String id) {
 //		this.id = id;
 //	}
