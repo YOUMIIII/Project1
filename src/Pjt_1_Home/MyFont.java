@@ -3,8 +3,9 @@ package Pjt_1_Home;
 import java.awt.Font;
 
 public class MyFont {
-	Font f1, f2, f3, f2p, f16,f16b, f15, fLogLabel, fPlusLabel, fExLabel, fPlusMenuList, fNorthLabel, f18;
-	MyFont(){
+	public Font f1, f2, f3, f2p, f16,f16b, f15, fLogLabel, fPlusLabel, fExLabel, fPlusMenuList, fNorthLabel;
+	public Font f18, f17;
+	public MyFont(){
 		f1 = new Font("나눔고딕", Font.PLAIN, 23);
 		f2 = new Font("나눔고딕", Font.BOLD, 13); // 버튼용
 		f2p = new Font("나눔고딕", Font.PLAIN, 13); // 버튼용
@@ -18,5 +19,6 @@ public class MyFont {
 		f16 = new Font("나눔고딕",Font.PLAIN, 16);
 		f16b = new Font("나눔고딕",Font.BOLD, 16);
 		f15 = new Font("나눔고딕",Font.PLAIN, 15);
+		f17 = new Font("나눔고딕",Font.PLAIN, 17);
 	}
 }

@@ -10,14 +10,6 @@ import javax.swing.JOptionPane;
 import Pjt_1_ConnectServer.ConnectTest;
 
 public class IdCheckDao {
-//	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@localhost:1521/xe";
-//	String user = "c##green";
-//	String password = "green1234";
-//
-//	private Connection con;
-//	private Statement stmt;
-//	ResultSet rs;
 	ConnectTest cont = new ConnectTest();
 	String query;
 

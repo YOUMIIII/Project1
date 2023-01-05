@@ -7,17 +7,8 @@ import javax.swing.JOptionPane;
 
 import Pjt_1_ConnectServer.ConnectTest;
 
-//import Pjt_1_Home.HomeFrame;
-
 public class LoginDao {
-//	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@localhost:1521/xe";
-//	String user = "c##green";
-//	String password = "green1234";
-//
-//	private Connection con;
-//	private Statement stmt;
-//	ResultSet rs;
+
 	ConnectTest cont = new ConnectTest();
 	String query;
 	

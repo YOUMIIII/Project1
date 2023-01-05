@@ -120,6 +120,7 @@ public class LoginFrame implements ActionListener {
 			} catch(Exception ex) {
 //				JOptionPane.showMessageDialog(this, "로그인 실패");
 				System.out.println("입력하신 id나 pwd가 틀렸습니다.");
+				System.out.println(ex);
 
 			}
 		}

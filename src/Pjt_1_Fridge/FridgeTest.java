@@ -1,10 +1,9 @@
-package Pjt_1_Refridge;
+package Pjt_1_Fridge;
 
-public class RefridgeTest {
+public class FridgeTest {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		String id = null;
+		new FridgeFrame(id);
 	}
-
 }

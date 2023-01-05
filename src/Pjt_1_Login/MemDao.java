@@ -16,7 +16,6 @@ public class MemDao {
 
 	private Connection con;
 	private Statement stmt;
-//	private ResultSet rs;
 
 	Login_SignFrame ls = new Login_SignFrame();
 
@@ -35,21 +34,6 @@ public class MemDao {
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "이미 사용중인 아이디입니다!", "잠깐만요!",
 					JOptionPane.ERROR_MESSAGE);
-//				Login_SignFrame ls = new Login_SignFrame();
-//				ls.msg.setText("이미 사용중인 아이디 입니다!");
-//				ls.error.setSize(290, 110);
-//				ls.d = ls.error.getSize();
-//				ls.error.setLocation((ls.screenSize.width - (int) (ls.d.getWidth())) / 2,
-//						(ls.screenSize.height - (int) (ls.d.getHeight())) / 2);
-//				ls.error.setLayout(new FlowLayout());
-//				ls.error.add(ls.msg);
-//				ls.error.add(ls.ok);
-//				ls.ok.addActionListener(new ActionListener() {
-//					public void actionPerformed(ActionEvent e) {
-//						ls.error.dispose();
-//					}
-//				});
-//				ls.error.setVisible(true);
 				System.out.println(e);
 		}
 	}
