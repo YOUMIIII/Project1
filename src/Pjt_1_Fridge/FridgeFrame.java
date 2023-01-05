@@ -1,11 +1,11 @@
-package Pjt_1_Refridge;
+package Pjt_1_Fridge;
 
 import javax.swing.JFrame;
 
-public class RefridgeFrame {
+public class FridgeFrame {
 	JFrame fRefridge;
 	
-	public RefridgeFrame() {
+	public FridgeFrame() {
 		fRefridge = new JFrame("나의 냉장고");
 		fRefridge.setSize(500, 520);
 		fRefridge.setLocationRelativeTo(null);
