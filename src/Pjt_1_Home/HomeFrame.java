@@ -35,7 +35,7 @@ public class HomeFrame {
 	JPanel pBar, pLabel, pNorthBar, pNorthNutri, pAverage;
 	JLabel lId, lDate, lDateY, lDateYY, lMenuB, lMenuL, lMenuD, lMenu1, lMenu2, lYellow, lOrange, lGreen, lAverage;
 	RoundedButton bMenuB, bFrid, bLogout, bEditB;
-	String id;
+	String id = "test";
 	String[] nutri = { "탄수화물", "단백질", "채소", "칼슘", "지방", "과일", "기타" };
 	JPanel[] pNutri, pYellow, pGreen, pOrange;
 	JLabel[] lNutri;
@@ -51,8 +51,8 @@ public class HomeFrame {
 		return id;
 	}
 
-	public HomeFrame() {
-		System.out.println(id); // 아이디 null..
+	public HomeFrame(String id) {
+//		System.out.println(id); // 아이디 null..
 		fHome = new JFrame(); // 메인페이지 프레임
 		fHome.setTitle("식단");
 
@@ -70,16 +70,16 @@ public class HomeFrame {
 		pOrange = new JPanel[2];
 		lGreen = new JLabel("채소");
 		pGreen = new JPanel[4];
-		for(int i = 0; i<pYellow.length; i++) {
+		for (int i = 0; i < pYellow.length; i++) {
 			pYellow[i] = new JPanel();
 		}
-		for(int i = 0; i<pOrange.length; i++) {
+		for (int i = 0; i < pOrange.length; i++) {
 			pOrange[i] = new JPanel();
 		}
-		for(int i = 0; i<pGreen.length; i++) {
+		for (int i = 0; i < pGreen.length; i++) {
 			pGreen[i] = new JPanel();
 		}
-		
+
 		pNorthBar = new JPanel();
 		lNutri = new JLabel[7];
 		pNutri = new JPanel[7];
@@ -112,7 +112,6 @@ public class HomeFrame {
 		fHome.setLayout(null);
 //		System.out.println(id);
 
-		
 		// 상단 바 패널 설정
 		pNorthBar.setBounds(170, 0, 1050, 40);
 		pNorthBar.setBackground(pg.back);
@@ -139,11 +138,11 @@ public class HomeFrame {
 		lId.setFont(font.f3);
 		lId.setForeground(Color.white); // 레이블 색 설정 메소드
 		lId.setBounds(40, 0, 140, 200);
-		
+
 		pAverage.setBounds(20, 200, 140, 200);
 		pAverage.setBackground(pg.back);
 		pAverage.setLayout(null);
-		
+
 		lAverage.setBounds(10, 0, 140, 60);
 		lAverage.setFont(font.f16b);
 		lYellow.setBounds(10, 25, 140, 60);
@@ -151,34 +150,34 @@ public class HomeFrame {
 		pYellow[0].setBounds(10, 65, 40, 20);
 		pYellow[1].setBounds(50, 65, 40, 20);
 		pYellow[2].setBounds(90, 65, 40, 20);
-		
+
 		// 하루필요영양소 패널 세팅
 		int n = mToday.getN1();
-		if(n >0 && n<3) {
-			for(int i = 0; i<n; i++) {
+		if (n > 0 && n < 3) {
+			for (int i = 0; i < n; i++) {
 				pYellow[i].setBackground(pg.cNutri[0]);
 			}
-		}else {
-			for(int i = 0; i<pYellow.length; i++) {
+		} else if (n >= 3) {
+			for (int i = 0; i < pYellow.length; i++) {
 				pYellow[i].setBackground(pg.cNutri[0]);
 			}
 		}
-		
+
 		lOrange.setBounds(10, 70, 140, 60);
 		lOrange.setFont(font.f15);
 		pOrange[0].setBounds(10, 110, 60, 20);
 		pOrange[1].setBounds(70, 110, 60, 20);
 		int n2 = mToday.getN2();
-		if(n2>0 && n2<2) {
-			for(int i = 0; i<n2; i++) {
+		if (n2 > 0 && n2 < 2) {
+			for (int i = 0; i < n2; i++) {
 				pOrange[i].setBackground(pg.cNutri[1]);
 			}
-		}else {
-			for(int i = 0; i<pOrange.length; i++) {
+		} else if (n2 >= 2) {
+			for (int i = 0; i < pOrange.length; i++) {
 				pOrange[i].setBackground(pg.cNutri[1]);
 			}
 		}
-		
+
 		lGreen.setBounds(10, 115, 140, 60);
 		lGreen.setFont(font.f15);
 		pGreen[0].setBounds(10, 155, 30, 20);
@@ -186,19 +185,19 @@ public class HomeFrame {
 		pGreen[2].setBounds(70, 155, 30, 20);
 		pGreen[3].setBounds(100, 155, 30, 20);
 		int n3 = mToday.getN3();
-		if(n3>0 && n3<4) {
-			for(int i = 0; i<n3; i++) {
+		if (n3 > 0 && n3 < 4) {
+			for (int i = 0; i < n3; i++) {
 				pGreen[i].setBackground(pg.cNutri[2]);
 			}
-		}else {
-			for(int i = 0; i<pGreen.length; i++) {
+		} else if (n3 >= 4) {
+			for (int i = 0; i < pGreen.length; i++) {
 				pGreen[i].setBackground(pg.cNutri[2]);
 			}
 		}
-		
-		bMenuB.setBounds(40, 595, 100,30);
+
+		bMenuB.setBounds(40, 595, 100, 30);
 		bMenuB.setFont(font.f15);
-		bMenuB.addActionListener(new ActionListener() { //식단추가 리스너
+		bMenuB.addActionListener(new ActionListener() { // 식단추가 리스너
 			public void actionPerformed(ActionEvent arg0) {
 				new PlusMenuFrameB(id); // id를 넣어서 다음프레임으로 값 전달
 				fHome.setVisible(false);
@@ -211,7 +210,7 @@ public class HomeFrame {
 				new FridgeFrame(id);
 			}
 		});
-		bLogout.setBounds(40,675,100, 30);
+		bLogout.setBounds(40, 675, 100, 30);
 		bLogout.setFont(font.f15);
 		bLogout.addActionListener(new ActionListener() { // 로그아웃 리스너 - 홈프레임 닫고 로그인창으로
 			public void actionPerformed(ActionEvent arg0) {
@@ -242,17 +241,16 @@ public class HomeFrame {
 		pLabel.setBackground(Color.WHITE);
 		pLabel.setBounds(225, 130, 95, 885);
 		lMenuB.setFont(font.f1);
-		lMenuB.setBounds(30, 0, 90, 50);
+		lMenuB.setBounds(30, 60, 90, 50);
 		lMenu1.setFont(font.f1);
-		lMenu1.setBounds(30, 130, 90, 50);
+		lMenu1.setBounds(30, 170, 90, 50);
 		lMenuL.setFont(font.f1);
-		lMenuL.setBounds(30, 210, 90, 50);
+		lMenuL.setBounds(30, 270, 90, 50);
 		lMenu2.setFont(font.f1);
-		lMenu2.setBounds(30, 340, 90, 50);
+		lMenu2.setBounds(30, 380, 90, 50);
 		lMenuD.setFont(font.f1);
-		lMenuD.setBounds(30, 420, 90, 50);
-		
-		
+		lMenuD.setBounds(30, 480, 90, 50);
+
 		// add
 		pNorthBar.add(pNorthNutri);
 		for (int i = 0; i < nutri.length; i++) {
@@ -275,13 +273,13 @@ public class HomeFrame {
 		pAverage.add(lYellow);
 		pAverage.add(lOrange);
 		pAverage.add(lGreen);
-		for(int i = 0; i<pYellow.length; i++) {
+		for (int i = 0; i < pYellow.length; i++) {
 			pAverage.add(pYellow[i]);
 		}
-		for(int i = 0; i<pOrange.length; i++) {
+		for (int i = 0; i < pOrange.length; i++) {
 			pAverage.add(pOrange[i]);
 		}
-		for(int i = 0; i<pGreen.length; i++) {
+		for (int i = 0; i < pGreen.length; i++) {
 			pAverage.add(pGreen[i]);
 		}
 		pBar.add(bFrid);
@@ -293,7 +291,7 @@ public class HomeFrame {
 		fHome.add(pBar);
 		fHome.add(pNorthBar);
 		fHome.add(pLabel);
-		
+
 		// 프레임 사이즈, 위치 설정
 		fHome.setSize(1200, 800);
 		fHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

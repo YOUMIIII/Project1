@@ -1,8 +1,10 @@
 package Pjt_1_Home;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -20,7 +22,7 @@ public class PlusFoodFrame implements ActionListener {
 	HomeFrame hf;
 	
 	MyFont font = new MyFont();
-	JFrame fPFood;
+	Frame fPFood;
 	JPanel pFood;
 	JCheckBox[] checkMS;
 	JRadioButton rbMain, rbSide;
@@ -35,7 +37,7 @@ public class PlusFoodFrame implements ActionListener {
 		//
 		this.id = id;
 
-		fPFood = new JFrame("메뉴 추가");
+		fPFood = new Frame("메뉴 추가");
 		pFood = new JPanel();
 		lEx = new JLabel("리스트에 추가하실 메뉴를 작성해주세요:)");
 		lSurvey1 = new JLabel("ㆍ메뉴");
@@ -145,7 +147,6 @@ public class PlusFoodFrame implements ActionListener {
 		fPFood.setSize(500, 520);
 		fPFood.setLocationRelativeTo(null);
 		fPFood.setResizable(false);
-		fPFood.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		fPFood.setVisible(true);
 	}
 
@@ -175,9 +176,17 @@ public class PlusFoodFrame implements ActionListener {
 					+ nutri[6] + "','" + ingredient1 + "','" + ingredient2 + "')";
 			ConnectTest conTest = new ConnectTest();
 			conTest.plusList(sql);
-			fPFood.setVisible(false);
 			new PlusMenuFrameB(id);
+			fPFood.setVisible(false);
 //			new MenuDao(sql);
 		}
+	}
+	
+	public void windowClosing(WindowEvent e) { // 회원가입 창 종료하면 다시 로그인 창 오픈
+		new PlusMenuFrameB(id);
+		fPFood.setVisible(false);
+//		HomeFrame hf = new HomeFrame(id);
+//		hf.homeOpen();
+
 	}
 }

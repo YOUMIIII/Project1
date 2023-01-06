@@ -1,8 +1,11 @@
 package Pjt_1_Home;
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -19,13 +22,13 @@ import javax.swing.ListSelectionModel;
 
 import Pjt_1_ConnectServer.ConnectTest;
 
-public class PlusMenuFrameB {
+public class PlusMenuFrameB extends WindowAdapter{
 	Calendar now = Calendar.getInstance();
 	String format = "YY년 MM월 dd일(E)";
 	SimpleDateFormat sdf = new SimpleDateFormat(format);
 
 	MyFont font = new MyFont();
-	JFrame fPMenu;
+	Frame fPMenu;
 	JLabel lMent, lMain, lSide, lTime;
 	JPanel pMenu, pMain, pSide, pButton, pTime;
 	JList listMain, listSide;
@@ -41,7 +44,7 @@ public class PlusMenuFrameB {
 		lMent = new JLabel();
 		lMain = new JLabel();
 		lSide = new JLabel();
-		fPMenu = new JFrame("식단추가");
+		fPMenu = new Frame("식단추가");
 		pMenu = new JPanel();
 		pMain = new JPanel();
 		pSide = new JPanel();
@@ -160,14 +163,14 @@ public class PlusMenuFrameB {
 				
 //				String sqlb = String.format("select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, today, 1);
 //				menu = con.bringMenu(sqlb);
-				HomeFrame hf = new HomeFrame();
+				HomeFrame hf = new HomeFrame(id);
 				hf.setId(id);
 				hf.homeOpen();
 				fPMenu.setVisible(false);
 			}
 		});
+		
 
-		// 아침 식단 추가 프레임
 		fPMenu.add(lMent, "North");
 		fPMenu.add(pMenu, "Center");
 		pMenu.add(pTime);
@@ -187,15 +190,19 @@ public class PlusMenuFrameB {
 		pButton.add(bPMenu);
 		pButton.add(bEnterMenu);
 
+		fPMenu.addWindowListener(this);
 		fPMenu.setSize(500, 520);
 		fPMenu.setLocationRelativeTo(null);
 		fPMenu.setResizable(false);
-		fPMenu.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		fPMenu.setVisible(true);
 
 	}
 
-//	void getId(String id) {
-//		this.id = id;
-//	}
+	public void windowClosing(WindowEvent e) { // 회원가입 창 종료하면 다시 로그인 창 오픈
+		HomeFrame hf = new HomeFrame(id);
+		hf.setId(id);
+		hf.homeOpen();
+		fPMenu.setVisible(false);
+
+	}
 }
