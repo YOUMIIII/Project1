@@ -13,8 +13,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import Pjt_1_Home.HomeFrame;
-import Pjt_1_Home.PlusFoodFrame;
-import Pjt_1_Home.PlusFoodTest;
 import Pjt_1_Home.RoundedButton;
 
 public class LoginFrame implements ActionListener {
@@ -88,7 +86,7 @@ public class LoginFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("회원가입")) {
 			Login_SignFrame ls = new Login_SignFrame();
-			ls.signOpen();
+//			ls.signOpen();
 			fLog.setVisible(false);
 		}
 		if (e.getActionCommand().equals("로그인")) {
@@ -104,7 +102,7 @@ public class LoginFrame implements ActionListener {
 					
 					if (getpwd.equals(String.valueOf(tPw.getPassword()))) {
 //						System.out.println("로그인 되었습니다.");
-						HomeFrame hf = new HomeFrame();
+						HomeFrame hf = new HomeFrame(getid);
 						hf.setId(getid);
 						hf.homeOpen();
 //						PlusFoodFrame pf = new PlusFoodFrame();

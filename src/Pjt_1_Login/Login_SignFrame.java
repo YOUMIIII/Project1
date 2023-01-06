@@ -66,7 +66,7 @@ public class Login_SignFrame extends WindowAdapter implements ActionListener {
 		lBirth.setBounds(50, 275, 200, 35);
 		tYear.setBounds(50, 310, 70, 23);
 		cMonth.setBounds(130, 310, 60, 25);
-		cDay.setBounds(200, 310, 60, 25);
+		cDay.setBounds(200, 310, 70, 25);
 		lEmail.setBounds(50, 340, 200, 35);
 		tEmail.setBounds(50, 370, 350, 25);
 		btnSign.setBounds(180, 420, 90, 30);

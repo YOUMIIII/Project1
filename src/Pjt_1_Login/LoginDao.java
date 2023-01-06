@@ -46,11 +46,11 @@ public class LoginDao {
 	public void connDB() {
 		try {
 			Class.forName(cont.driver);
-			System.out.println("jdbc driver loading success");
+//			System.out.println("jdbc driver loading success");
 			cont.con = DriverManager.getConnection(cont.url, cont.user, cont.password);
-			System.out.println("oracle connection success.");
+//			System.out.println("oracle connection success.");
 			cont.stmt = cont.con.createStatement();
-			System.out.println("statement create success.");
+//			System.out.println("statement create success.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
