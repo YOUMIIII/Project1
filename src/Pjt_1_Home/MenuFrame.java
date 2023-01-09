@@ -3,10 +3,17 @@ package Pjt_1_Home;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import Pjt_1_ConnectServer.ConnectTest;
 import Pjt_1_ConnectServer.PanelGroup;
@@ -17,6 +24,7 @@ public class MenuFrame {
 	int[] nutrinum;
 	int[] n= {0,0,0,0,0,0,0};
 	JPanel[] pNutri;
+	JTable bTable, sTable, lTable, s2Table, dTable;
 
 	MyFont font = new MyFont();
 	ConnectTest con = new ConnectTest();
@@ -44,59 +52,82 @@ public class MenuFrame {
 		pMenu1 = new JPanel();
 		pMenuS1 = new JPanel();
 		pMenu2 = new JPanel();
-//		System.out.println(id);
-//		System.out.println(date);
+		
+		
+		
 
 		String sqlb = String.format(
 				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 1);
-		String[] menu = con.bringMenu(sqlb);
-		lMenuB = new JLabel[menu.length];
-		for (int i = 0; i < menu.length; i++) {
-			lMenuB[i] = new JLabel();
-			lMenuB[i].setText(menu[i]);
-			lMenuB[i].setFont(font.f18);
+		ArrayList<String> menu1 = con.bringMenuList(sqlb);
+		Vector<String> listField = new Vector<String>();
+		listField.addElement(" ");
+		DefaultTableModel model = new DefaultTableModel(listField,0);
+		for (int i = 0; i<menu1.size(); i++) {
+			Vector<String> vector = new Vector<String>();
+			vector.add(menu1.get(i));
+			model.addRow(vector);
 		}
-
+		bTable = new JTable(model);
+		bTable.setRowHeight(24);
+		bTable.setFont(font.f17);
+		tableCellCenter(bTable);
+		
 		String sqls1 = String.format(
 				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 2);
-		String[] menu2 = con.bringMenu(sqls1);
-		lMenu1 = new JLabel[menu2.length];
-		for (int i = 0; i < menu2.length; i++) {
-			lMenu1[i] = new JLabel();
-			lMenu1[i].setText(menu2[i]);
-			lMenu1[i].setFont(font.f18);
+		ArrayList<String> menu2 = con.bringMenuList(sqls1);
+		DefaultTableModel model2 = new DefaultTableModel(listField,0);
+		for (int i = 0; i<menu2.size(); i++) {
+			Vector<String> vector = new Vector<String>();
+			vector.add(menu2.get(i));
+			model2.addRow(vector);
 		}
-
+		sTable = new JTable(model2);
+		sTable.setRowHeight(24);
+		sTable.setFont(font.f17);
+		tableCellCenter(sTable);
+		
 		String sqll = String.format(
 				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 3);
-		String[] menu3 = con.bringMenu(sqll);
-		lMenuL = new JLabel[menu3.length];
-		for (int i = 0; i < menu3.length; i++) {
-			lMenuL[i] = new JLabel();
-			lMenuL[i].setText(menu3[i]);
-			lMenuL[i].setFont(font.f18);
+		ArrayList<String> menu3 = con.bringMenuList(sqll);
+		DefaultTableModel model3 = new DefaultTableModel(listField,0);
+		for (int i = 0; i<menu3.size(); i++) {
+			Vector<String> vector = new Vector<String>();
+			vector.add(menu3.get(i));
+			model3.addRow(vector);
 		}
-
+		lTable = new JTable(model3);
+		lTable.setRowHeight(24);
+		lTable.setFont(font.f17);
+		tableCellCenter(lTable);
+		
 		String sqls2 = String.format(
 				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 4);
-		String[] menu4 = con.bringMenu(sqls2);
-		lMenu2 = new JLabel[menu4.length];
-		for (int i = 0; i < menu4.length; i++) {
-			lMenu2[i] = new JLabel();
-			lMenu2[i].setText(menu4[i]);
-			lMenu2[i].setFont(font.f18);
+		ArrayList<String> menu4 = con.bringMenuList(sqls2);
+		DefaultTableModel model4 = new DefaultTableModel(listField,0);
+		for (int i = 0; i<menu4.size(); i++) {
+			Vector<String> vector = new Vector<String>();
+			vector.add(menu4.get(i));
+			model4.addRow(vector);
 		}
-
+		s2Table = new JTable(model4);
+		s2Table.setRowHeight(24);
+		s2Table.setFont(font.f17);
+		tableCellCenter(s2Table);
+		
 		String sqld = String.format(
 				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 5);
-		String[] menu5 = con.bringMenu(sqld);
-		lMenuD = new JLabel[menu5.length];
-		for (int i = 0; i < menu5.length; i++) {
-			lMenuD[i] = new JLabel();
-			lMenuD[i].setText(menu5[i]);
-			lMenuD[i].setFont(font.f18);
+		ArrayList<String> menu5 = con.bringMenuList(sqld);
+		DefaultTableModel model5 = new DefaultTableModel(listField,0);
+		for (int i = 0; i<menu5.size(); i++) {
+			Vector<String> vector = new Vector<String>();
+			vector.add(menu5.get(i));
+			model5.addRow(vector);
 		}
-
+		dTable = new JTable(model5);
+		dTable.setRowHeight(24);
+		dTable.setFont(font.f17);
+		tableCellCenter(dTable);
+		
 		pMenu.setLayout(null);
 		pDate.setBounds(0, 0, 230, 70);
 		pDate.setBackground(Color.WHITE);
@@ -137,48 +168,37 @@ public class MenuFrame {
 		pMenuB.setBackground(Color.WHITE);
 		pMenuB.setBounds(0, 103, 230, 130);
 		pMenuB.setBorder(bb);
-		pMenuBB.setLayout(new FlowLayout());
-		pMenuBB.setBounds(50, 10, 140, 80);
-		pMenuBB.setBackground(Color.white);
+		bTable.setBounds(5, 5, 220, 120);
 		pMenu1.setBounds(0, 233, 230, 80);
 		pMenu1.setBackground(Color.WHITE);
 		pMenu1.setBorder(bb);
+		sTable.setBounds(5, 5, 220, 70);
 		pMenuL.setBackground(Color.WHITE);
 		pMenuL.setBounds(0, 313, 230, 130);
 		pMenuL.setBorder(bb);
 		pMenuL.setLayout(null);
-		pMenuLL.setLayout(new FlowLayout());
-		pMenuLL.setBounds(50, 10, 140, 80);
-		pMenuLL.setBackground(Color.white);
+		lTable.setBounds(5, 5, 220, 120);
 		pMenu2.setBounds(0, 443, 230, 80);
 		pMenu2.setBackground(Color.WHITE);
 		pMenu2.setBorder(bb);
+		s2Table.setBounds(5, 5, 220, 70);
+		pMenuD.setLayout(null);
 		pMenuD.setBackground(Color.WHITE);
 		pMenuD.setBounds(0, 523, 230, 130);
 		pMenuD.setBorder(bb);
+		dTable.setBounds(5, 5, 220, 120);
 
 		pMenu.add(pDate);
 		pMenu.add(pNutriBox);
 		for (int i = 0; i < pNutri.length; i++) {
 			pNutriBox.add(pNutri[i]);
 		}
-		pMenuB.add(pMenuBB);
-		for (int i = 0; i < menu.length; i++) {
-			pMenuBB.add(lMenuB[i]);
-		}
-		for (int i = 0; i < menu2.length; i++) {
-			pMenu1.add(lMenu1[i]);
-		}
-		pMenuL.add(pMenuLL);
-		for (int i = 0; i < menu3.length; i++) {
-			pMenuLL.add(lMenuL[i]);
-		}
-		for (int i = 0; i < menu4.length; i++) {
-			pMenu2.add(lMenu2[i]);
-		}
-		for (int i = 0; i < menu5.length; i++) {
-			pMenuD.add(lMenuD[i]);
-		}
+
+		pMenuB.add(bTable);
+		pMenu1.add(sTable);
+		pMenuL.add(lTable);
+		pMenu2.add(s2Table);
+		pMenuD.add(dTable);
 		pMenu.add(pMenuB);
 		pMenu.add(pMenuL);
 		pMenu.add(pMenuD);
@@ -196,6 +216,14 @@ public class MenuFrame {
 	
 	int getN3() {
 		return n[2];
+	}
+	
+	// 테이블 가운데 정렬 메소드
+	public void tableCellCenter(JTable t) { 
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcm = t.getColumnModel();
+		tcm.getColumn(0).setCellRenderer(dtcr);
 	}
 
 }

@@ -3,6 +3,8 @@ package Pjt_1_Fridge;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.swing.JPanel;
+
 public class FridgeVO {
 	Calendar now = Calendar.getInstance();
 	String format = "YYYY-MM-dd";
@@ -11,10 +13,12 @@ public class FridgeVO {
 
 	String id;
 	String ingredient;
-	int quantity;
+	String quantity;
 	String date;
+	String beforedate;
+	String n = null;
 
-	public FridgeVO(String id, String ingredient, int quantity, String date) {
+	public FridgeVO(String id, String ingredient, String quantity, String date) {
 		this.id = id;
 		this.ingredient = ingredient;
 		this.quantity = quantity;
@@ -29,21 +33,16 @@ public class FridgeVO {
 		return ingredient;
 	}
 
-	public int getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
 
 	public String getDate() {
-		if ((int)(date.charAt(6)) < (int)(today.charAt(6))) {
-			return "** "+ date;
-		} else if((int)(date.charAt(8)) <= (int)(today.charAt(8))) {
-			if ((int)(date.charAt(9)) < (int)(today.charAt(9))) {
-				return "** " + date;
-			}else {
-				return date;
-			}
+		if (date==null) {
+			return n;
 		} else {
-			return date;
+			String beforedate = date.substring(0, 10);
+			return beforedate;
 		}
 	}
 }

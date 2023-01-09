@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,7 +35,7 @@ public class HomeFrame {
 	JFrame fHome;
 	JPanel pBar, pLabel, pNorthBar, pNorthNutri, pAverage;
 	JLabel lId, lDate, lDateY, lDateYY, lMenuB, lMenuL, lMenuD, lMenu1, lMenu2, lYellow, lOrange, lGreen, lAverage;
-	RoundedButton bMenuB, bFrid, bLogout, bEditB;
+	JButton bMenuB, bFrid, bLogout, bEditB;
 	String id = "test";
 	String[] nutri = { "탄수화물", "단백질", "채소", "칼슘", "지방", "과일", "기타" };
 	JPanel[] pNutri, pYellow, pGreen, pOrange;
@@ -58,10 +59,10 @@ public class HomeFrame {
 
 		pBar = new JPanel();
 		lId = new JLabel();
-		bMenuB = new RoundedButton("식단추가");
-		bEditB = new RoundedButton("식단수정");
-		bFrid = new RoundedButton("냉장고보기");
-		bLogout = new RoundedButton("로그아웃");
+		bMenuB = new JButton("식단추가");
+		bEditB = new JButton("식단수정");
+		bFrid = new JButton("냉장고보기");
+		bLogout = new JButton("로그아웃");
 		pAverage = new RoundedPanel(15, Color.white);
 		lAverage = new JLabel("오늘의 필요영양소");
 		lYellow = new JLabel("탄수화물");
@@ -195,7 +196,7 @@ public class HomeFrame {
 			}
 		}
 
-		bMenuB.setBounds(40, 595, 100, 30);
+		bMenuB.setBounds(40, 595, 100, 40);
 		bMenuB.setFont(font.f15);
 		bMenuB.addActionListener(new ActionListener() { // 식단추가 리스너
 			public void actionPerformed(ActionEvent arg0) {
@@ -203,14 +204,14 @@ public class HomeFrame {
 				fHome.setVisible(false);
 			}
 		});
-		bFrid.setBounds(40, 635, 100, 30);
+		bFrid.setBounds(40, 635, 100, 40);
 		bFrid.setFont(font.f15);
 		bFrid.addActionListener(new ActionListener() { // 냉장고보기 리스너
 			public void actionPerformed(ActionEvent arg0) {
 				new FridgeFrame(id);
 			}
 		});
-		bLogout.setBounds(40, 675, 100, 30);
+		bLogout.setBounds(40, 675, 100, 40);
 		bLogout.setFont(font.f15);
 		bLogout.addActionListener(new ActionListener() { // 로그아웃 리스너 - 홈프레임 닫고 로그인창으로
 			public void actionPerformed(ActionEvent arg0) {
