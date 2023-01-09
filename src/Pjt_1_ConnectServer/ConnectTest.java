@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import Pjt_1_Fridge.FridgeVO;
 
@@ -91,7 +92,7 @@ public class ConnectTest {
 			while(rs.next()) {
 				String id = rs.getString("ID");
 				String ingredient = rs.getString("INGREDIENT");
-				int quantity = rs.getInt("QUANTITY");
+				String quantity = rs.getString("QUANTITY");
 				String date = rs.getString("BEST_BEFORE");
 				
 				FridgeVO data = new FridgeVO(id, ingredient, quantity, date);
@@ -122,6 +123,21 @@ public class ConnectTest {
 	}
 
 	//
+	public ArrayList<String> bringMenuList(String sql) {
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+			connDB();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				list.add(rs.getString("MENU_NAME"));
+			}
+			
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return list;
+	}
+	
 	public String[] bringMenu(String sql) {
 		try {
 			ArrayList<String> list = new ArrayList<String>();
@@ -136,12 +152,6 @@ public class ConnectTest {
 				menu[i] = value;
 				i++;
 			}
-//			Label[]	lMenu = new Label[list.size()];
-//			for(int j = 0; j<list.size(); j++) {
-//				lMenu[j] = new Label();
-//				lMenu[j].setText(menu[j]);
-//				System.out.println(menu[j]);
-//			}
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
@@ -171,5 +181,35 @@ public class ConnectTest {
 		}
 		return nutrinum;
 	}
-
+	
+	public void insertFridge(String sql) {
+		try {
+			connDB();
+			boolean b = stmt.execute(sql);
+			if (!b) {
+				System.out.println("Insert sucess.\n");
+			} else {
+				System.out.println("Insert fail.\n");
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+			System.out.println("여기?");
+		}
+	}
+	
+	public void updateFridge(String sql) {
+		try {
+			connDB();
+			boolean b = stmt.execute(sql);
+			if (!b) {
+				System.out.println("Update sucess.\n");
+				JOptionPane.showMessageDialog(null, "재고량이 수정되었습니다:)", "수정완료", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				System.out.println("Update fail.\n");
+			}
+		}catch (SQLException e) {
+			System.out.println(e);
+			System.out.println("저기?");
+		}
+	}
 }
