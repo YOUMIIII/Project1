@@ -1,24 +1,24 @@
 package Pjt_1_Home;
 
-import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Vector;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import Pjt_1_ConnectServer.ConnectTest;
 
@@ -29,43 +29,33 @@ public class PlusMenuFrameB extends WindowAdapter{
 
 	MyFont font = new MyFont();
 	Frame fPMenu;
-	JLabel lMent, lMain, lSide, lTime;
-	JPanel pMenu, pMain, pSide, pButton, pTime;
-	JList listMain, listSide;
-	RoundedButton bPMenu, bEnterMenu;
+	JLabel lMent, lMenu, lTime;
+	JPanel pMenu, pMain, pTime;
+	JTable tbFood;
+	JScrollPane scrollT;
+	JButton bPMenu, bEnterMenu;
 	String id, sqlm, sqls, today, menuName;
 	int when;
 	JScrollPane scrollMain, scrollSide;
 	String[] mains, sides, menu;
 	JRadioButton rbTime1, rbTime2, rbTime3, rbTime4, rbTime5;
-	ConnectTest conTest = new ConnectTest();
+	ConnectTest cont = new ConnectTest();
+
 
 	PlusMenuFrameB(String id) {
-		lMent = new JLabel();
-		lMain = new JLabel();
-		lSide = new JLabel();
 		fPMenu = new Frame("식단추가");
-		pMenu = new JPanel();
-		pMain = new JPanel();
-		pSide = new JPanel();
-		pButton = new JPanel();
-		sqlm = String.format("select food_name from food where id = '%s' and main = '%d'", id, 1);
-		mains = conTest.getList(sqlm);
-		sqls = String.format("select food_name from food where id = '%s' and main = '%d'", id, 0);
-		sides = conTest.getList(sqls);
-		listMain = new JList(mains);
-		listSide = new JList(sides);
-		bPMenu = new RoundedButton("메뉴 추가");
-		bEnterMenu = new RoundedButton("식단 등록");
-		scrollMain = new JScrollPane(listMain);
-		scrollSide = new JScrollPane(listSide);
+		lMent = new JLabel();
+		pTime = new JPanel();
+		lTime = new JLabel();
 		rbTime1 = new JRadioButton("아침");
 		rbTime2 = new JRadioButton("오전간식");
 		rbTime3 = new JRadioButton("점심");
 		rbTime4 = new JRadioButton("오후간식");
 		rbTime5 = new JRadioButton("저녁");
-		pTime = new JPanel();
-		lTime = new JLabel();
+		
+		pMenu = new JPanel();
+		lMenu = new JLabel();
+		
 		
 		ButtonGroup jb = new ButtonGroup();
 		jb.add(rbTime1);
@@ -73,6 +63,9 @@ public class PlusMenuFrameB extends WindowAdapter{
 		jb.add(rbTime3);
 		jb.add(rbTime4);
 		jb.add(rbTime5);
+		
+		bPMenu = new JButton("메뉴 추가");
+		bEnterMenu = new JButton("식단 등록");
 
 		this.id = id; // 전달받은 id 지역변수로 삽입
 		openPlusMenuB();
@@ -81,58 +74,67 @@ public class PlusMenuFrameB extends WindowAdapter{
 	void openPlusMenuB() {
 		// 받은 id 제대로 출력됨 확인
 //		System.out.println(id);
-
+		
+		fPMenu.setLayout(null);
 		// 상단 멘트
+		lMent.setBounds(30, 40, 200, 40);
 		lMent.setText("식단을 등록해주세요:)");
-		lMent.setFont(font.f3);
+		lMent.setFont(font.f18b);
 		
 		// 시간설정
-		pTime.setBounds(0, 10, 500, 30);
-		lTime.setText("식단시간을 선택해주세요");
-		lTime.setFont(font.fPlusLabel);
-		rbTime1.setFont(font.f2p);
-		rbTime2.setFont(font.f2p);
-		rbTime3.setFont(font.f2p);
-		rbTime4.setFont(font.f2p);
-		rbTime5.setFont(font.f2p);
-
-		// 메인메뉴 레이블
+		pTime.setBounds(0, 80, 500, 80);
+		pTime.setLayout(null);
+//		pTime.setBackground(Color.yellow);
+		lTime.setText("1. 식단시간을 선택해주세요");
+		lTime.setBounds(30, 0, 200, 40);
+		lTime.setFont(font.f17);
+		rbTime1.setFont(font.f16);
+		rbTime2.setFont(font.f16);
+		rbTime3.setFont(font.f16);
+		rbTime4.setFont(font.f16);
+		rbTime5.setFont(font.f16);
+		rbTime1.setBounds(30, 30, 100, 50);
+		rbTime2.setBounds(110, 30, 100, 50);
+		rbTime3.setBounds(210, 30, 100, 50);
+		rbTime4.setBounds(290, 30, 100, 50);
+		rbTime5.setBounds(390, 30, 100, 50);
+		
+		// 메뉴리스트 테이블
+		pMenu.setBounds(0, 160, 500, 270);
+//		pMenu.setBackground(Color.pink);
 		pMenu.setLayout(null);
-		pMain.setBounds(0, 45, 500, 180);
-//		pMain.setBackground(Color.yellow);
-		pMain.setLayout(new BorderLayout());
-		lMain.setText("ㆍ메인메뉴");
-		lMain.setFont(font.fPlusLabel);
+		lMenu.setBounds(30, 0, 500, 40);
+		lMenu.setText("2. 등록할 식단을 선택해주세요");
+		lMenu.setFont(font.f17);
+		
+		Vector<String> listField = new Vector<String>();
+		listField.addElement("");
+		DefaultTableModel model = new DefaultTableModel(listField, 0);
+		String sql = "select food_name from food where id = '" + id + "'";
+		ArrayList<String> list = cont.getList(sql);
+		for (int i = 0; i<list.size(); i++) {
+			Vector<String> vector = new Vector<String>();
+			vector.add(list.get(i));
+			model.addRow(vector);
+		}
+		tbFood = new JTable(model);
+		scrollT = new JScrollPane(tbFood);
+		scrollT.setBounds(30, 50, 440, 200);
+		tbFood.setRowHeight(25);
+		tbFood.setFont(font.f16);
 
-		// 메인메뉴 리스트
-		listMain.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listMain.setFont(font.fPlusMenuList);
-		scrollMain.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+	
 
-		// 사이드메뉴 레이블
-//		pSide.setBackground(Color.cyan);
-		pSide.setBounds(0, 235, 500, 180);
-		pSide.setLayout(new BorderLayout());
-		lSide.setText("ㆍ그 외");
-		lSide.setFont(font.fPlusLabel);
-
-		// 사이드메뉴 리스트
-		listSide.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		listSide.setFont(font.fPlusMenuList);
-		scrollSide.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-
-		// 버튼 패널
-//		pButton.setBackground(Color.white);
-		pButton.setBounds(0, 425, 500, 80);
-		bPMenu.setFont(font.f2);
+		bPMenu.setFont(font.f15);
+		bPMenu.setBounds(140, 440, 100, 40);
 		bPMenu.addActionListener(new ActionListener() { // 메뉴 추가 버튼 리스너
 			public void actionPerformed(ActionEvent arg0) {
-				PlusFoodFrame pf = new PlusFoodFrame(id);
-				pf.openPlusFood();
+				new PlusFoodFrame(id);
 				fPMenu.setVisible(false);
 			}
 		});
-		bEnterMenu.setFont(font.f2);
+		bEnterMenu.setFont(font.f15);
+		bEnterMenu.setBounds(250, 440, 100, 40);
 		bEnterMenu.addActionListener(new ActionListener() { // 식단 등록 버튼 리스너
 			public void actionPerformed(ActionEvent arg0) {
 				today = sdf.format(now.getTime());
@@ -144,25 +146,20 @@ public class PlusMenuFrameB extends WindowAdapter{
 					when = 3;
 				}else if(rbTime4.isSelected()) {
 					when = 4;
-				}else {
+				}else if(rbTime5.isSelected()){
 					when = 5;
+				}else {
+					JOptionPane.showMessageDialog(null, "식단시간을 선택해주세요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
 				}
-				menuName = (String) listMain.getSelectedValue();
-				//메인메뉴는 단일선택, 사이드는 다중선택이라 선택값 불러오는게 달라서 따로 쿼리작성함.
-				String sql = "insert into todaymenu values('" + id + "','" + today + "','" + when + "','" + menuName
-						+ "')";
-				ConnectTest con = new ConnectTest();
-				con.plusMenu(sql);
-
-				List<String> ls = listSide.getSelectedValuesList();
-				for (String value : ls) {
-					sql = "insert into todaymenu values('" + id + "','" + today + "','" + when + "','" + value + "')";
-					con = new ConnectTest();
-					con.plusMenu(sql);
+				int[] row = tbFood.getSelectedRows();
+				String value[] = new String[row.length];
+				for(int i = 0; i<row.length; i++) {
+					value[i] = tbFood.getValueAt(row[i], 0).toString();
+					String sql = "insert into todaymenu values('" + id + "','" + today + "','" + when + "','" + value[i]
+							+ "')";
+					ConnectTest cont = new ConnectTest();
+					cont.plusMenu(sql);
 				}
-				
-//				String sqlb = String.format("select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, today, 1);
-//				menu = con.bringMenu(sqlb);
 				HomeFrame hf = new HomeFrame(id);
 				hf.setId(id);
 				hf.homeOpen();
@@ -170,25 +167,23 @@ public class PlusMenuFrameB extends WindowAdapter{
 			}
 		});
 		
-
-		fPMenu.add(lMent, "North");
-		fPMenu.add(pMenu, "Center");
-		pMenu.add(pTime);
 		pTime.add(lTime);
 		pTime.add(rbTime1);
 		pTime.add(rbTime2);
 		pTime.add(rbTime3);
 		pTime.add(rbTime4);
 		pTime.add(rbTime5);
-		pMenu.add(pMain);
-		pMain.add(lMain, "North");
-		pMain.add(scrollMain, "Center");
-		pMenu.add(pSide);
-		pSide.add(lSide, "North");
-		pSide.add(scrollSide, "Center");
-		pMenu.add(pButton);
-		pButton.add(bPMenu);
-		pButton.add(bEnterMenu);
+		pMenu.add(lMenu);
+		pMenu.add(scrollT);
+		
+		
+		fPMenu.add(lMent);
+		fPMenu.add(pTime);
+		fPMenu.add(pMenu);
+		fPMenu.add(bPMenu);
+		fPMenu.add(bEnterMenu);
+		
+		
 
 		fPMenu.addWindowListener(this);
 		fPMenu.setSize(500, 520);

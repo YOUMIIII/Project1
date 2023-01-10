@@ -53,8 +53,6 @@ public class MenuFrame {
 		pMenuS1 = new JPanel();
 		pMenu2 = new JPanel();
 		
-		
-		
 
 		String sqlb = String.format(
 				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 1);
@@ -143,25 +141,25 @@ public class MenuFrame {
 		}
 
 		// 하루 식단 종합해서 각 영양소 존재하는지 계산
-		String sql = String.format("select menu_name from todaymenu where id = '%s' and today = '%s'", id, date);
-		String[] menuAll = con.bringMenu(sql);
-
-		for (int i = 0; i < menuAll.length; i++) {
-			String sqlAll = String.format("select * from food where id = '%s' and food_name = '%s'", id, menuAll[i]);
-			nutrinum = con.bringNutri(sqlAll); // 영양소 번호가 적혀있는 int 배열
-			for(int j = 0; j<n.length; j++) {
-				if(nutrinum[j]==1) {
-					n[j]++;
-				}
-			}
-		}
-		
-		// 영양소 존재하면 색깔 배정
-		for(int i = 0; i<n.length; i++) {
-			if(n[i]>0) {
-				pNutri[i].setBackground(pg.cNutri[i]);
-			}
-		}
+//		String sql = String.format("select menu_name from todaymenu where id = '%s' and today = '%s'", id, date);
+//		String[] menuAll = con.bringMenu(sql);
+//
+//		for (int i = 0; i < menuAll.length; i++) {
+//			String sqlAll = String.format("select * from food where id = '%s' and food_name = '%s'", id, menuAll[i]);
+//			nutrinum = con.bringNutri(sqlAll); // 영양소 번호가 적혀있는 int 배열
+//			for(int j = 0; j<n.length; j++) {
+//				if(nutrinum[j]==1) {
+//					n[j]++;
+//				}
+//			}
+//		}
+//		
+//		// 영양소 존재하면 색깔 배정
+//		for(int i = 0; i<n.length; i++) {
+//			if(n[i]>0) {
+//				pNutri[i].setBackground(pg.cNutri[i]);
+//			}
+//		}
 
 		pMenu.setBackground(Color.black);
 		pMenuB.setLayout(null);

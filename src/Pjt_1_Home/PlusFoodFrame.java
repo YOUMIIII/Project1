@@ -1,36 +1,41 @@
 package Pjt_1_Home;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Vector;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+//import Pjt_1_Login.LoginVo;
+import javax.swing.table.DefaultTableModel;
 
 import Pjt_1_ConnectServer.ConnectTest;
-//import Pjt_1_Login.LoginVo;
 
-public class PlusFoodFrame implements ActionListener {
+public class PlusFoodFrame extends WindowAdapter implements ActionListener {
 	//
 	HomeFrame hf;
-	
-	MyFont font = new MyFont();
 	Frame fPFood;
-	JPanel pFood;
-	JCheckBox[] checkMS;
-	JRadioButton rbMain, rbSide;
-	JLabel lEx, lSurvey1, lSurvey2, lSurvey3, lSurvey4, lSurvey5;
-	JTextField tFood, tIngredient1, tIngredient2;
-	String[] nutri = { "탄수화물", "단백질", "채소", "칼슘", "지방", "과일", "기타" };
-	RoundedButton bPlus;
-	int main = 0;
+	JPanel pNorth, pCard, pSearch, pInput;
+	JButton bMenuSearch, bInput, bSearch, bAdd;
+	JLabel lName;
+	JTextField tName;
+	JTable tbResult;
+	JScrollPane scrollT;
+	CardLayout card = new CardLayout();
+	ConnectTest cont = new ConnectTest();
+
+	MyFont font = new MyFont();
+
 	String id;
 
 	public PlusFoodFrame(String id) { // 주/사이드, 메뉴이름, 영양소선택, 주 식재료1, 주 식재료2
@@ -38,155 +43,113 @@ public class PlusFoodFrame implements ActionListener {
 		this.id = id;
 
 		fPFood = new Frame("메뉴 추가");
-		pFood = new JPanel();
-		lEx = new JLabel("리스트에 추가하실 메뉴를 작성해주세요:)");
-		lSurvey1 = new JLabel("ㆍ메뉴");
-		lSurvey2 = new JLabel("ㆍ메뉴이름");
-		lSurvey3 = new JLabel("ㆍ영양소");
-		lSurvey4 = new JLabel("ㆍ주 식재료1");
-		lSurvey5 = new JLabel("ㆍ주 식재료2");
-		rbMain = new JRadioButton("메인메뉴(밥, 면, 덮밥 등)");
-		rbSide = new JRadioButton("그 외(반찬, 간식 등)");
-		tFood = new JTextField(15);
-		checkMS = new JCheckBox[7];
-		for (int i = 0; i < checkMS.length; i++) {
-			checkMS[i] = new JCheckBox(nutri[i]);
-		}
-		tIngredient1 = new JTextField();
-		tIngredient2 = new JTextField();
-		bPlus = new RoundedButton("추가");
+		pNorth = new JPanel();
+		bMenuSearch = new JButton("메뉴검색");
+		bInput = new JButton("직접입력");
+		pCard = new JPanel();
+		pSearch = new JPanel();
+		pInput = new JPanel();
 
-		// 라디오버튼 그룹설정
-		ButtonGroup jb = new ButtonGroup();
-		jb.add(rbMain);
-		jb.add(rbSide);
+		lName = new JLabel("메뉴이름");
+		tName = new JTextField(20);
+		bSearch = new JButton("검색");
+		tbResult = new JTable();
+		bAdd = new JButton("추가");
 
+		openPlusFood();
 	}
 
 	void openPlusFood() {
 		//
 		System.out.println(id);
+
+		fPFood.setLayout(null);
+		pNorth.setBounds(0, 0, 450, 60);
+		pNorth.setBackground(Color.lightGray);
+		pNorth.setLayout(null);
+		bMenuSearch.setBounds(0, 23, 100, 40);
+		bMenuSearch.addActionListener(this);
+		bMenuSearch.setFont(font.f15);
+		bInput.setBounds(95, 23, 100, 40);
+		bInput.setFont(font.f15);
+		bInput.addActionListener(this);
+
+		pCard.setLayout(card);
+		pCard.setBounds(0, 60, 450, 440);
+
+		pSearch.setLayout(null);
+		lName.setBounds(20, 20, 200, 40);
+		lName.setFont(font.f17);
+		tName.setBounds(15, 55, 310, 40);
+		bSearch.setBounds(335, 55, 100, 40);
+		bSearch.setFont(font.f15);
+		bSearch.addActionListener(this);
+
+		Vector<String> listField = new Vector<String>();
+		listField.addElement("");
+		DefaultTableModel model = new DefaultTableModel(listField, 0);
+		tbResult = new JTable(model);
+		scrollT = new JScrollPane(tbResult);
+		scrollT.setBounds(20, 120, 410, 210);
+		tbResult.setRowHeight(20);
+		tbResult.setFont(font.f15);
 		
-		pFood.setLayout(null);
+		bAdd.setBounds(175, 360, 100, 40);
+		bAdd.setFont(font.f15);
+		bAdd.addActionListener(this);
 
-		pFood.setBackground(Color.white);
-		lEx.setBounds(30, 10, 300, 30);
-		lEx.setFont(font.fExLabel);
+		pSearch.add(lName);
+		pSearch.add(tName);
+		pSearch.add(bSearch);
+		pSearch.add(scrollT);
+		pSearch.add(bAdd);
 
-		// 작성1
-		lSurvey1.setBounds(30, 50, 200, 30);
-		rbMain.setBounds(40, 80, 200, 30);
-		rbSide.setBounds(260, 80, 150, 30);
-		lSurvey1.setFont(font.fPlusLabel);
-		rbMain.setFont(font.f2p);
-		rbMain.setBackground(Color.white);
-		rbMain.addActionListener(this); // 메인메뉴버튼 리스너
-		rbSide.setFont(font.f2p);
-		rbSide.setBackground(Color.white);
+		pCard.add(pSearch, "1");
+		pCard.add(pInput, "2");
 
-		// 작성2
-		lSurvey2.setBounds(30, 110, 200, 30);
-		lSurvey2.setFont(font.fPlusLabel);
-		tFood.setBounds(40, 145, 100, 25);
-
-		// 작성3
-		lSurvey3.setBounds(30, 175, 200, 30);
-		lSurvey3.setFont(font.fPlusLabel);
-		checkMS[0].setBounds(40, 205, 80, 30);
-		checkMS[0].setFont(font.f2p);
-		checkMS[1].setBounds(130, 205, 80, 30);
-		checkMS[1].setFont(font.f2p);
-		checkMS[2].setBounds(220, 205, 60, 30);
-		checkMS[2].setFont(font.f2p);
-		checkMS[3].setBounds(290, 205, 80, 30);
-		checkMS[3].setFont(font.f2p);
-		checkMS[4].setBounds(370, 205, 80, 30);
-		checkMS[4].setFont(font.f2p);
-		checkMS[5].setBounds(40, 235, 80, 30);
-		checkMS[5].setFont(font.f2p);
-		checkMS[6].setBounds(130, 235, 80, 30);
-		checkMS[6].setFont(font.f2p);
-		for (int i = 0; i < checkMS.length; i++) {
-			checkMS[i].setBackground(Color.white);
-			checkMS[i].addActionListener(this);
-		}
-
-		// 작성4
-		lSurvey4.setBounds(30, 265, 200, 30);
-		lSurvey4.setFont(font.fPlusLabel);
-		tIngredient1.setBounds(40, 300, 100, 25);
-
-		// 작성5
-		lSurvey5.setBounds(30, 330, 200, 30);
-		lSurvey5.setFont(font.fPlusLabel);
-		tIngredient2.setBounds(40, 360, 100, 25);
-
-		bPlus.setBounds(210, 405, 50, 30);
-		bPlus.setFont(font.f2);
-		bPlus.addActionListener(this); // 추가버튼 리스너
-
-		pFood.add(lEx);
-		pFood.add(lSurvey1);
-		pFood.add(rbSide);
-		pFood.add(rbMain);
-		pFood.add(lSurvey2);
-		pFood.add(tFood);
-		pFood.add(lSurvey3);
-		for (int i = 0; i < checkMS.length; i++) {
-			pFood.add(checkMS[i]);
-		}
-		pFood.add(lSurvey4);
-		pFood.add(tIngredient1);
-		pFood.add(lSurvey5);
-		pFood.add(tIngredient2);
-		pFood.add(bPlus);
-
-		fPFood.add(pFood);
+		pNorth.add(bMenuSearch);
+		pNorth.add(bInput);
+		fPFood.add(pNorth);
+		fPFood.add(pCard);
 
 		// 메뉴추가 프레임
-		fPFood.setSize(500, 520);
+		fPFood.setSize(450, 500);
 		fPFood.setLocationRelativeTo(null);
 		fPFood.setResizable(false);
+		fPFood.addWindowListener(this);
 		fPFood.setVisible(true);
 	}
 
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String s = e.getActionCommand();
-		if (s.equals("추가")) {
-			int main = 0;
-			if (rbMain.isSelected()) {
-				main = 1;
+		if (e.getActionCommand().equals("메뉴검색")) {
+			card.show(pCard, "1");
+		} else if (e.getActionCommand().equals("직접입력")) {
+			card.show(pCard, "2");
+		} else if (e.getActionCommand().equals("검색")) {
+			System.out.println("검색");
+			DefaultTableModel model = (DefaultTableModel) tbResult.getModel();
+			String sql = "select name from nutrition where name like '%" + tName.getText() + "%'";
+			ArrayList<String> menu = cont.bringMenuList(sql);
+			for (int i = 0; i < menu.size(); i++) {
+//				System.out.println(menu.get(i));
+				Vector<String> vector = new Vector<String>();
+				vector.add(menu.get(i));
+				model.addRow(vector);
 			}
-			String menu = tFood.getText();
-			int[] nutri = new int[7];
-			for (int i = 0; i < checkMS.length; i++) {
-				if (checkMS[i].isSelected()) {
-					nutri[i] = 1;
-				} else {
-					nutri[i] = 0;
-				}
-			}
-			String ingredient1 = tIngredient1.getText();
-			String ingredient2 = tIngredient2.getText();
-			
-			String sql = "insert into food values('" + id + "','" + main + "','" + menu + "','" + nutri[0] + "','"
-					+ nutri[1] + "','" + nutri[2] + "','" + nutri[3] + "','" + nutri[4] + "','" + nutri[5] + "','"
-					+ nutri[6] + "','" + ingredient1 + "','" + ingredient2 + "')";
-			ConnectTest conTest = new ConnectTest();
-			conTest.plusList(sql);
+		}else if(e.getActionCommand().equals("추가")) {
+			int row = tbResult.getSelectedRow();
+			int column = tbResult.getSelectedColumn();
+			String value = tbResult.getValueAt(row, column).toString();
+			String sql = "select * from nutrition where name = '" + value + "'"; // nutrition테이블에서 선택값 찾
+			cont.plusList(sql, id);
 			new PlusMenuFrameB(id);
 			fPFood.setVisible(false);
-//			new MenuDao(sql);
 		}
 	}
-	
-	public void windowClosing(WindowEvent e) { // 회원가입 창 종료하면 다시 로그인 창 오픈
+
+	public void windowClosing(WindowEvent e) {
 		new PlusMenuFrameB(id);
 		fPFood.setVisible(false);
-//		HomeFrame hf = new HomeFrame(id);
-//		hf.homeOpen();
-
 	}
 }
