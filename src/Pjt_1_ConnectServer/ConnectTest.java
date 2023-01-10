@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import Pjt_1_Fridge.FridgeVO;
 
@@ -41,27 +41,38 @@ public class ConnectTest {
 		}
 	}
 
-	// 메뉴 데이터베이스에 추가해주는 메소드
-	public void plusList(String sql) {
+	// food(t) 데이터베이스에 추가해주는 메소드
+	public void plusList(String sql, String id) {
 		try {
 			connDB();
-			boolean b = stmt.execute(sql);
-			if (!b) {
-				System.out.println("Insert sucess.\n");
-				JOptionPane.showMessageDialog(null, "작성해주신 메뉴가 리스트에 추가되었습니다!", "추가완료", JOptionPane.PLAIN_MESSAGE);
-			} else {
-				System.out.println("Insert fail.\n");
+			rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				String name = rs.getString("NAME");
+				String kcal = rs.getString("KCAL");
+				String nutri1 = rs.getString("NUTRITION1");
+				String nutri2 = rs.getString("NUTRITION2");
+				String nutri3 = rs.getString("NUTRITION3");
+				String nutri4 = rs.getString("NUTRITION4");
+				String nutri5 = rs.getString("NUTRITION5");
+				
+				String sqlInsert = "insert into food values ('" + id + "','" + name + "','" + kcal + "','" + nutri1 + "','" + nutri2 + "','" + nutri3 + "','" + nutri4 + "','" +nutri5 + "')";
+				boolean b = stmt.execute(sqlInsert);
+				if (!b) {
+					System.out.println("Insert sucess.\n");
+					JOptionPane.showMessageDialog(null, "선택해주신 메뉴가 리스트에 추가되었습니다!", "추가완료", JOptionPane.PLAIN_MESSAGE);
+				} else {
+					System.out.println("Insert fail.\n");
+				}
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
-			JOptionPane.showMessageDialog(null, "이미 작성하신 메뉴이거나 메뉴이름을 확인해주세요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "이미 리스트에 있는 메뉴이거나 메뉴이름을 확인해주세요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	// 식단리스트 가져오는 메소드
-	public String[] getList(String sql) {
+	public ArrayList<String> getList(String sql) {
 		ArrayList<String> list = new ArrayList<String>();
-		String[] mainlist;
 		try {
 			connDB();
 			rs = stmt.executeQuery(sql);
@@ -69,19 +80,12 @@ public class ConnectTest {
 				list.add(rs.getString("FOOD_NAME"));
 			}
 			Collections.sort(list);
+			
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
-//		System.out.println(list);
-//		System.out.println(list.toString());
-//		list.toString();
-		StringTokenizer st = new StringTokenizer(list.toString(), "[|, |]");
-		int countTokens = st.countTokens();
-		mainlist = new String[countTokens];
-		for (int i = 0; i < countTokens; i++) {
-			mainlist[i] = st.nextToken();
-		}
-		return mainlist;
+		
+		return list;
 	}
 	
 	public ArrayList<FridgeVO> getFridge(String sql) {
@@ -129,7 +133,7 @@ public class ConnectTest {
 			connDB();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				list.add(rs.getString("MENU_NAME"));
+				list.add(rs.getString("NAME"));
 			}
 			
 		} catch (SQLException e) {
