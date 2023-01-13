@@ -1,6 +1,7 @@
 package Pjt_1_Login;
 
 import java.awt.Choice;
+import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -21,7 +22,7 @@ import Pjt_1_Home.RoundedButton;
 
 public class Login_SignFrame extends WindowAdapter implements ActionListener {
 	Frame fSign;
-	JLabel lId, lPw, lRePw, lBirth, lEmail;
+	JLabel lId, lPw, lRePw, lBirth, lEmail, lEx;
 	JTextField tId, tPw, tRePw, tYear, tEmail;
 	RoundedButton btnSign, btnCheckId;
 	Choice cMonth, cDay;
@@ -33,6 +34,7 @@ public class Login_SignFrame extends WindowAdapter implements ActionListener {
 
 	Login_SignFrame() {
 		fSign = new Frame("회원가입");
+		lEx = new JLabel();
 		lId = new JLabel("아이디"); // (영문 소문자, 숫자, 특수문자 혼합가능 6~12자 사용)
 		lPw = new JLabel("비밀번호"); // 영문 소문자, 숫자, 특수문자 혼합가능 6~12자 사용
 		tId = new JTextField(25);
@@ -56,29 +58,34 @@ public class Login_SignFrame extends WindowAdapter implements ActionListener {
 
 	void signOpen() {
 		fSign.setLayout(null);
-		lId.setBounds(50, 80, 65, 35); // Y축 65씩
-		tId.setBounds(50, 110, 250, 25); // label, tf y차이 30
-		btnCheckId.setBounds(320, 105, 75, 30);
-		lPw.setBounds(50, 145, 65, 35);
-		tPw.setBounds(50, 175, 350, 25);
-		lRePw.setBounds(50, 210, 200, 35);
-		tRePw.setBounds(50, 240, 350, 25);
-		lBirth.setBounds(50, 275, 200, 35);
-		tYear.setBounds(50, 310, 70, 23);
-		cMonth.setBounds(130, 310, 60, 25);
-		cDay.setBounds(200, 310, 70, 25);
-		lEmail.setBounds(50, 340, 200, 35);
-		tEmail.setBounds(50, 370, 350, 25);
-		btnSign.setBounds(180, 420, 90, 30);
+		fSign.setBackground(Color.white);
+		lEx.setText("|  회원가입  |");
+		lEx.setFont(font.f20);
+		lEx.setBounds(50, 65, 400, 30);
+		lId.setBounds(50, 120, 65, 35); // Y축 65씩
+		tId.setBounds(50, 155, 250, 35); // label, tf y차이 35
+		btnCheckId.setBounds(320, 157, 75, 30);
+		lPw.setBounds(50, 195, 65, 35);
+		tPw.setBounds(50, 230, 350, 35);
+		lRePw.setBounds(50, 270, 200, 35);
+		tRePw.setBounds(50, 305, 350, 35);
+		lBirth.setBounds(50, 345, 200, 35);
+		tYear.setBounds(50, 385, 70, 35);
+		cMonth.setBounds(130, 388, 60, 30);
+		cDay.setBounds(200, 388, 70, 30);
+		lEmail.setBounds(50, 425, 200, 35);
+		tEmail.setBounds(50, 460, 350, 35);
+		btnSign.setBounds(180, 530, 90, 40);
 
-		lId.setFont(font.fLogLabel);
-		lPw.setFont(font.fLogLabel);
-		lRePw.setFont(font.fLogLabel);
-		lBirth.setFont(font.fLogLabel);
-		lEmail.setFont(font.fLogLabel);
-		btnSign.setFont(font.f2);
-		btnCheckId.setFont(font.f2);
+		lId.setFont(font.f17);
+		lPw.setFont(font.f17);
+		lRePw.setFont(font.f17);
+		lBirth.setFont(font.f17);
+		lEmail.setFont(font.f17);
+		btnSign.setFont(font.f15);
+		btnCheckId.setFont(font.f15);
 
+		fSign.add(lEx);
 		fSign.add(lId);
 		fSign.add(tId);
 		fSign.add(btnCheckId);
@@ -112,7 +119,7 @@ public class Login_SignFrame extends WindowAdapter implements ActionListener {
 		fSign.add(tEmail);
 		fSign.add(btnSign);
 		btnSign.addActionListener(this);
-		fSign.setSize(450, 520);
+		fSign.setSize(450, 610);
 		fSign.addWindowListener(this);
 		fSign.setLocationRelativeTo(null);
 		fSign.setVisible(true);
