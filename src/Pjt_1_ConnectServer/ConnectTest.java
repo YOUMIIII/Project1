@@ -26,7 +26,7 @@ public class ConnectTest {
 	public Statement stmt;
 	public ResultSet rs;
 	String[] menu;
-	int[] nutrinum;
+	Double[] nutrinum;
 
 	public void connDB() {
 		try {
@@ -46,7 +46,7 @@ public class ConnectTest {
 		try {
 			connDB();
 			rs = stmt.executeQuery(sql);
-			while(rs.next()) {
+			while (rs.next()) {
 				String name = rs.getString("NAME");
 				String kcal = rs.getString("KCAL");
 				String nutri1 = rs.getString("NUTRITION1");
@@ -54,8 +54,12 @@ public class ConnectTest {
 				String nutri3 = rs.getString("NUTRITION3");
 				String nutri4 = rs.getString("NUTRITION4");
 				String nutri5 = rs.getString("NUTRITION5");
-				
-				String sqlInsert = "insert into food values ('" + id + "','" + name + "','" + kcal + "','" + nutri1 + "','" + nutri2 + "','" + nutri3 + "','" + nutri4 + "','" +nutri5 + "')";
+				String nutri6 = rs.getString("NUTRITION6");
+				String nutri7 = rs.getString("NUTRITION7");
+
+				String sqlInsert = "insert into food values ('" + id + "','" + name + "','" + kcal + "','" + nutri1
+						+ "','" + nutri2 + "','" + nutri4 + "','" + nutri6 + "','" + nutri5 + "','" + nutri7 + "','"
+						+ nutri3 + "')";
 				boolean b = stmt.execute(sqlInsert);
 				if (!b) {
 					System.out.println("Insert sucess.\n");
@@ -65,8 +69,8 @@ public class ConnectTest {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println(e);
-			JOptionPane.showMessageDialog(null, "이미 리스트에 있는 메뉴이거나 메뉴이름을 확인해주세요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
+//			System.out.println(e);
+//			JOptionPane.showMessageDialog(null, "이미 리스트에 있는 메뉴이거나 메뉴이름을 확인해주세요!", "잠깐만요!", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -77,35 +81,35 @@ public class ConnectTest {
 			connDB();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				list.add(rs.getString("FOOD_NAME"));
+				list.add(rs.getString("NAME"));
 			}
 			Collections.sort(list);
-			
+
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
-		
+
 		return list;
 	}
-	
+
 	public ArrayList<FridgeVO> getFridge(String sql) {
 		ArrayList<FridgeVO> list = new ArrayList<FridgeVO>();
-		try{
+		try {
 			connDB();
 			rs = stmt.executeQuery(sql);
-			while(rs.next()) {
+			while (rs.next()) {
 				String id = rs.getString("ID");
 				String ingredient = rs.getString("INGREDIENT");
 				String quantity = rs.getString("QUANTITY");
 				String date = rs.getString("BEST_BEFORE");
-				
+
 				FridgeVO data = new FridgeVO(id, ingredient, quantity, date);
 				list.add(data);
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			System.out.println(e);
 		}
-		
+
 		return list;
 	}
 
@@ -135,20 +139,21 @@ public class ConnectTest {
 			while (rs.next()) {
 				list.add(rs.getString("NAME"));
 			}
-			
+
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
 		return list;
 	}
-	
+
+	// 오늘 하루 먹은 음식리스트
 	public String[] bringMenu(String sql) {
 		try {
 			ArrayList<String> list = new ArrayList<String>();
 			connDB();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				list.add(rs.getString("MENU_NAME"));
+				list.add(rs.getString("NAME"));
 			}
 			int i = 0;
 			menu = new String[list.size()];
@@ -161,23 +166,27 @@ public class ConnectTest {
 		}
 		return menu;
 	}
-	
+
 	// food(t)에서 그 음식의 영양소 가져와서 list로
-	public int[] bringNutri(String sql) {
+	public Double[] bringNutri(String sql) {
 		try {
-			ArrayList<Integer> list = new ArrayList<Integer>();
+			ArrayList<Double> list = new ArrayList<Double>();
 			connDB();
 			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
-				for (int i = 1; i <= 7; i++) {
-					list.add(rs.getInt("NUTRITION"+i));
+				for (int i = 1; i <= 5; i++) {
+					if (rs.getString("NUTRITION" + i).equals("null")) {
+						list.add(0.0);
+					} else {
+						list.add(Double.parseDouble(rs.getString("NUTRITION" + i)));
+					}
 				}
-				nutrinum = new int[list.size()];
-				int i = 0;
-				for(Integer value : list) {
-					nutrinum[i] = value;
-					i++;
-				}
+			}
+			nutrinum = new Double[list.size()];
+			int i = 0;
+			for (Double value : list) {
+				nutrinum[i] = value;
+				i++;
 			}
 
 		} catch (SQLException e) {
@@ -185,7 +194,7 @@ public class ConnectTest {
 		}
 		return nutrinum;
 	}
-	
+
 	public void insertFridge(String sql) {
 		try {
 			connDB();
@@ -200,7 +209,7 @@ public class ConnectTest {
 			System.out.println("여기?");
 		}
 	}
-	
+
 	public void updateFridge(String sql) {
 		try {
 			connDB();
@@ -211,9 +220,49 @@ public class ConnectTest {
 			} else {
 				System.out.println("Update fail.\n");
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			System.out.println(e);
 			System.out.println("저기?");
 		}
+	}
+
+	public boolean idCheck(String sql) {
+		try {
+			connDB();
+			rs = stmt.executeQuery(sql);
+
+			if (rs.next()) {
+//				System.out.println("아이디있음");
+				return true;
+			} else {
+//				System.out.println("아이디없");
+				return false;
+			}
+
+		} catch (Exception e) {
+			System.out.println("오류");
+			return false;
+		}
+	}
+	
+	public String[] bringBaby(String sql){
+		String[] baby = new String[4];
+		try {
+			connDB();
+			rs = stmt.executeQuery(sql);
+			if(rs.next()) {
+				String name = rs.getString("BABY_NAME");
+				baby[0] = name;
+				String birth = rs.getString("BIRTH");
+				baby[1] = birth;
+				String sex = rs.getString("SEX");
+				baby[2] = sex;
+				String photo = rs.getString("PHOTO");
+				baby[3] = photo;
+			}
+		}catch(Exception e) {
+			System.out.println("오류");
+		}
+		return baby;
 	}
 }
