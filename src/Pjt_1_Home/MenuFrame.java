@@ -21,8 +21,8 @@ import Pjt_1_ConnectServer.PanelGroup;
 public class MenuFrame {
 	JPanel pMenu, pMenuB, pMenuBB, pMenuL, pMenuLL, pMenuD, pMenu1, pMenuS1, pMenu2, pDate, pNutriBox;
 	JLabel[] lMenuB, lMenuL, lMenuD, lMenu1, lMenu2;
-	int[] nutrinum;
-	int[] n= {0,0,0,0,0,0,0};
+	Double[] nutrinum;
+	int[] n= {0,0,0,0,0};
 	JPanel[] pNutri;
 	JTable bTable, sTable, lTable, s2Table, dTable;
 
@@ -42,7 +42,7 @@ public class MenuFrame {
 		
 		pDate = new JPanel();
 		pNutriBox = new JPanel();
-		pNutri = new JPanel[7];
+		pNutri = new JPanel[5];
 		pMenu = new JPanel();
 		pMenuB = new JPanel();
 		pMenuBB = new JPanel();
@@ -55,10 +55,10 @@ public class MenuFrame {
 		
 
 		String sqlb = String.format(
-				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 1);
+				"select name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 1);
 		ArrayList<String> menu1 = con.bringMenuList(sqlb);
 		Vector<String> listField = new Vector<String>();
-		listField.addElement(" ");
+		listField.addElement("");
 		DefaultTableModel model = new DefaultTableModel(listField,0);
 		for (int i = 0; i<menu1.size(); i++) {
 			Vector<String> vector = new Vector<String>();
@@ -71,7 +71,7 @@ public class MenuFrame {
 		tableCellCenter(bTable);
 		
 		String sqls1 = String.format(
-				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 2);
+				"select name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 2);
 		ArrayList<String> menu2 = con.bringMenuList(sqls1);
 		DefaultTableModel model2 = new DefaultTableModel(listField,0);
 		for (int i = 0; i<menu2.size(); i++) {
@@ -85,7 +85,7 @@ public class MenuFrame {
 		tableCellCenter(sTable);
 		
 		String sqll = String.format(
-				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 3);
+				"select name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 3);
 		ArrayList<String> menu3 = con.bringMenuList(sqll);
 		DefaultTableModel model3 = new DefaultTableModel(listField,0);
 		for (int i = 0; i<menu3.size(); i++) {
@@ -99,7 +99,7 @@ public class MenuFrame {
 		tableCellCenter(lTable);
 		
 		String sqls2 = String.format(
-				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 4);
+				"select name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 4);
 		ArrayList<String> menu4 = con.bringMenuList(sqls2);
 		DefaultTableModel model4 = new DefaultTableModel(listField,0);
 		for (int i = 0; i<menu4.size(); i++) {
@@ -113,7 +113,7 @@ public class MenuFrame {
 		tableCellCenter(s2Table);
 		
 		String sqld = String.format(
-				"select menu_name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 5);
+				"select name from todaymenu where id = '%s' and today = '%s' and today_when = '%d'", id, date, 5);
 		ArrayList<String> menu5 = con.bringMenuList(sqld);
 		DefaultTableModel model5 = new DefaultTableModel(listField,0);
 		for (int i = 0; i<menu5.size(); i++) {
@@ -127,64 +127,64 @@ public class MenuFrame {
 		tableCellCenter(dTable);
 		
 		pMenu.setLayout(null);
-		pDate.setBounds(0, 0, 230, 70);
+		pDate.setBounds(0, 0, 230, 60);
 		pDate.setBackground(Color.WHITE);
-		pDate.setLayout(new BorderLayout());
+		pDate.setLayout(null);
 		pNutriBox.setLayout(null);
 
 		// 영양소패널 위치지정
-		pNutriBox.setBounds(0, 70, 230, 33);
+		pNutriBox.setBounds(0, 60, 230, 10);
 		for (int i = 0; i < pNutri.length; i++) {
 			pNutri[i] = new JPanel();
-			pNutri[i].setBounds((i * 33), 0, 33, 33);
+			pNutri[i].setBounds((i * 46), 0, 46, 10); //영양소 7개일땐 33
 
 		}
 
-		// 하루 식단 종합해서 각 영양소 존재하는지 계산
-//		String sql = String.format("select menu_name from todaymenu where id = '%s' and today = '%s'", id, date);
-//		String[] menuAll = con.bringMenu(sql);
-//
-//		for (int i = 0; i < menuAll.length; i++) {
-//			String sqlAll = String.format("select * from food where id = '%s' and food_name = '%s'", id, menuAll[i]);
-//			nutrinum = con.bringNutri(sqlAll); // 영양소 번호가 적혀있는 int 배열
-//			for(int j = 0; j<n.length; j++) {
-//				if(nutrinum[j]==1) {
-//					n[j]++;
-//				}
-//			}
-//		}
-//		
-//		// 영양소 존재하면 색깔 배정
-//		for(int i = 0; i<n.length; i++) {
-//			if(n[i]>0) {
-//				pNutri[i].setBackground(pg.cNutri[i]);
-//			}
-//		}
+//		 하루 식단 종합해서 각 영양소 존재하는지 계산
+		String sql = String.format("select name from todaymenu where id = '%s' and today = '%s'", id, date);
+		String[] menuAll = con.bringMenu(sql);
 
-		pMenu.setBackground(Color.black);
+		for (int i = 0; i < menuAll.length; i++) {
+			String sqlAll = String.format("select * from food where id = '%s' and name = '%s'", id, menuAll[i]);
+			nutrinum = con.bringNutri(sqlAll); // 영양소 번호가 적혀있는 int 배열
+			for(int j = 0; j<n.length; j++) {
+				if(nutrinum[j]>0) {
+					n[j] += nutrinum[j];
+				}
+			}
+		}
+		
+		// 영양소 존재하면 색깔 배정
+		for(int i = 0; i<n.length; i++) {
+			if(n[i]>0) {
+				pNutri[i].setBackground(pg.cNutri[i]);
+			}
+		}
+
+		pMenu.setBackground(Color.white);
 		pMenuB.setLayout(null);
 		pMenuB.setBackground(Color.WHITE);
-		pMenuB.setBounds(0, 103, 230, 130);
+		pMenuB.setBounds(0, 70, 230, 130);
 		pMenuB.setBorder(bb);
-		bTable.setBounds(5, 5, 220, 120);
-		pMenu1.setBounds(0, 233, 230, 80);
+		bTable.setBounds(5, 15, 220, 110);
+		pMenu1.setBounds(0, 200, 230, 80);
 		pMenu1.setBackground(Color.WHITE);
 		pMenu1.setBorder(bb);
 		sTable.setBounds(5, 5, 220, 70);
 		pMenuL.setBackground(Color.WHITE);
-		pMenuL.setBounds(0, 313, 230, 130);
+		pMenuL.setBounds(0, 280, 230, 130);
 		pMenuL.setBorder(bb);
 		pMenuL.setLayout(null);
-		lTable.setBounds(5, 5, 220, 120);
-		pMenu2.setBounds(0, 443, 230, 80);
+		lTable.setBounds(5, 5, 220, 115);
+		pMenu2.setBounds(0, 410, 230, 80);
 		pMenu2.setBackground(Color.WHITE);
 		pMenu2.setBorder(bb);
 		s2Table.setBounds(5, 5, 220, 70);
 		pMenuD.setLayout(null);
 		pMenuD.setBackground(Color.WHITE);
-		pMenuD.setBounds(0, 523, 230, 130);
+		pMenuD.setBounds(0, 490, 230, 130);
 		pMenuD.setBorder(bb);
-		dTable.setBounds(5, 5, 220, 120);
+		dTable.setBounds(5, 15, 220, 110);
 
 		pMenu.add(pDate);
 		pMenu.add(pNutriBox);
@@ -205,15 +205,23 @@ public class MenuFrame {
 	}
 	
 	int getN1() {
-		return n[0];
+		return (int)n[0];
 	}
 	
 	int getN2() {
-		return n[1];
+		return (int)n[1]/2;
 	}
 	
 	int getN3() {
-		return n[2];
+		return (int)n[2];
+	}
+	
+	int getN4() {
+		return (int)n[3];
+	}
+	
+	int getN5() {
+		return (int)n[4]/3;
 	}
 	
 	// 테이블 가운데 정렬 메소드

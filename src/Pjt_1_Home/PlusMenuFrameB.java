@@ -1,5 +1,6 @@
 package Pjt_1_Home;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +25,7 @@ import Pjt_1_ConnectServer.ConnectTest;
 
 public class PlusMenuFrameB extends WindowAdapter{
 	Calendar now = Calendar.getInstance();
-	String format = "YY년 MM월 dd일(E)";
+	String format = "MM월 dd일(E)";
 	SimpleDateFormat sdf = new SimpleDateFormat(format);
 
 	MyFont font = new MyFont();
@@ -74,17 +75,17 @@ public class PlusMenuFrameB extends WindowAdapter{
 	void openPlusMenuB() {
 		// 받은 id 제대로 출력됨 확인
 //		System.out.println(id);
-		
 		fPMenu.setLayout(null);
+		fPMenu.setBackground(Color.white);
 		// 상단 멘트
-		lMent.setBounds(30, 40, 200, 40);
-		lMent.setText("식단을 등록해주세요:)");
-		lMent.setFont(font.f18b);
+		lMent.setBounds(30, 55, 400, 30);
+		lMent.setText("|  오늘의 식단을 등록해주세요  |");
+		lMent.setFont(font.f20);
 		
 		// 시간설정
-		pTime.setBounds(0, 80, 500, 80);
+		pTime.setBounds(0, 100, 500, 80);
 		pTime.setLayout(null);
-//		pTime.setBackground(Color.yellow);
+		pTime.setBackground(Color.white);
 		lTime.setText("1. 식단시간을 선택해주세요");
 		lTime.setBounds(30, 0, 200, 40);
 		lTime.setFont(font.f17);
@@ -100,8 +101,8 @@ public class PlusMenuFrameB extends WindowAdapter{
 		rbTime5.setBounds(390, 30, 100, 50);
 		
 		// 메뉴리스트 테이블
-		pMenu.setBounds(0, 160, 500, 270);
-//		pMenu.setBackground(Color.pink);
+		pMenu.setBounds(0, 180, 500, 270);
+		pMenu.setBackground(Color.white);
 		pMenu.setLayout(null);
 		lMenu.setBounds(30, 0, 500, 40);
 		lMenu.setText("2. 등록할 식단을 선택해주세요");
@@ -110,7 +111,7 @@ public class PlusMenuFrameB extends WindowAdapter{
 		Vector<String> listField = new Vector<String>();
 		listField.addElement("");
 		DefaultTableModel model = new DefaultTableModel(listField, 0);
-		String sql = "select food_name from food where id = '" + id + "'";
+		String sql = "select name from food where id = '" + id + "'";
 		ArrayList<String> list = cont.getList(sql);
 		for (int i = 0; i<list.size(); i++) {
 			Vector<String> vector = new Vector<String>();
@@ -125,16 +126,16 @@ public class PlusMenuFrameB extends WindowAdapter{
 
 	
 
-		bPMenu.setFont(font.f15);
-		bPMenu.setBounds(140, 440, 100, 40);
+		bPMenu.setFont(font.f16);
+		bPMenu.setBounds(140, 460, 100, 40);
 		bPMenu.addActionListener(new ActionListener() { // 메뉴 추가 버튼 리스너
 			public void actionPerformed(ActionEvent arg0) {
 				new PlusFoodFrame(id);
 				fPMenu.setVisible(false);
 			}
 		});
-		bEnterMenu.setFont(font.f15);
-		bEnterMenu.setBounds(250, 440, 100, 40);
+		bEnterMenu.setFont(font.f16);
+		bEnterMenu.setBounds(250, 460, 100, 40);
 		bEnterMenu.addActionListener(new ActionListener() { // 식단 등록 버튼 리스너
 			public void actionPerformed(ActionEvent arg0) {
 				today = sdf.format(now.getTime());
@@ -186,7 +187,7 @@ public class PlusMenuFrameB extends WindowAdapter{
 		
 
 		fPMenu.addWindowListener(this);
-		fPMenu.setSize(500, 520);
+		fPMenu.setSize(500, 540);
 		fPMenu.setLocationRelativeTo(null);
 		fPMenu.setResizable(false);
 		fPMenu.setVisible(true);
