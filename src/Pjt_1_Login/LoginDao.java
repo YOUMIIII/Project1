@@ -16,7 +16,7 @@ public class LoginDao {
 		
 	}
 
-	LoginDao(String id) {
+	public LoginDao(String id) {
 		query = String.format("Select * from member where id = '%s'", id);
 	}
 
@@ -35,6 +35,39 @@ public class LoginDao {
 			} else {
 				JOptionPane.showMessageDialog(null, "입력하신 아이디가 존재하지않습니다.","아이디 오류",JOptionPane.ERROR_MESSAGE);
 				System.out.println("입력하신 아이디가 틀렸습니다.");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<LoginVo> listMain() {
+		ArrayList<LoginVo> list = new ArrayList<LoginVo>();
+		try {
+			connDB();
+			cont.rs = cont.stmt.executeQuery(query);
+
+			if(cont.rs.next()) {
+				String memid = cont.rs.getString("ID");
+				String mempwd = cont.rs.getString("PW");
+				String birth = cont.rs.getString("BIRTH");
+				String mememail = cont.rs.getString("EMAIL");
+				String name = cont.rs.getString("BABY_NAME");
+				String sex = cont.rs.getString("SEX");
+				String photo;
+				if(cont.rs.getString("BABY_PHOTO")==null) {
+					photo = "";
+				}else {
+					photo = cont.rs.getString("BABY_PHOTO");
+				}
+				LoginVo data = new LoginVo(memid, mempwd, mememail, name, birth, sex, photo);
+				list.add(data);
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "무슨오류?","아이디 오류",JOptionPane.ERROR_MESSAGE);
+				System.out.println("입력하신 아이디가? 틀렸습니다.");
 			}
 
 		} catch (Exception e) {

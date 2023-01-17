@@ -25,8 +25,8 @@ public class MemDao {
 			boolean b = stmt.execute(sql);
 			if (!b) {
 				System.out.println("Insert sucess.\n");
-				JOptionPane.showMessageDialog(null, "가입완료! 환영합니다:) 가입하신 아이디로 로그인해주세요!","가입완료", JOptionPane.PLAIN_MESSAGE);
 				ls.signClose();
+				JOptionPane.showMessageDialog(null, "가입완료! 환영합니다:) 가입하신 아이디로 로그인해주세요!","가입완료", JOptionPane.PLAIN_MESSAGE);
 			} else {
 				System.out.println("Insert fail.\n");
 			}

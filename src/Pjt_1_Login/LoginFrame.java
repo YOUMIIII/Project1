@@ -19,8 +19,8 @@ import Pjt_1_Home.HomeFrame;
 import Pjt_1_Home.RoundedButton;
 
 public class LoginFrame implements ActionListener {
-	JFrame fLog, fSign;
-	JLabel lId, lPw, lChk, imageLogo;
+	JFrame fLog;
+	JLabel lId, lPw, imageLogo;
 	JTextField tId;
 	JPasswordField tPw;
 	RoundedButton btnLog;
@@ -118,7 +118,7 @@ public class LoginFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("회원가입")) {
 			Login_SignFrame ls = new Login_SignFrame();
-//			ls.signOpen();
+			ls.signOpen();
 			fLog.setVisible(false);
 		}
 		if (e.getActionCommand().equals("로그인")) {
@@ -137,9 +137,6 @@ public class LoginFrame implements ActionListener {
 						HomeFrame hf = new HomeFrame(getid);
 						hf.setId(getid);
 						hf.homeOpen();
-//						PlusFoodFrame pf = new PlusFoodFrame();
-//						pf.getId(getid);
-//						
 						fLog.setVisible(false);
 						break;
 					} else {
