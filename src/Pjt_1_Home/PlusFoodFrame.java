@@ -17,13 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-//import Pjt_1_Login.LoginVo;
 import javax.swing.table.DefaultTableModel;
 
 import Pjt_1_ConnectServer.ConnectTest;
 
 public class PlusFoodFrame extends WindowAdapter implements ActionListener {
-	//
+	
 	HomeFrame hf;
 	Frame fPFood;
 	JPanel pNorth, pCard, pSearch, pInput;
@@ -47,8 +46,8 @@ public class PlusFoodFrame extends WindowAdapter implements ActionListener {
 
 		fPFood = new Frame("메뉴 추가");
 		pNorth = new JPanel();
-		bMenuSearch = new JButton("메뉴검색");
-		bInput = new JButton("직접입력");
+		bMenuSearch = new RoundedButton("메뉴검색");
+		bInput = new RoundedButton2("직접입력");
 		pCard = new JPanel();
 		pSearch = new JPanel();
 		pInput = new JPanel();
@@ -77,7 +76,7 @@ public class PlusFoodFrame extends WindowAdapter implements ActionListener {
 
 		fPFood.setLayout(null);
 		pNorth.setBounds(0, 0, 450, 60);
-		pNorth.setBackground(new Color(255, 188, 158));
+		pNorth.setBackground(Color.white);
 		pNorth.setLayout(null);
 		bMenuSearch.setBounds(0, 24, 100, 40);
 		bMenuSearch.addActionListener(this);
@@ -91,7 +90,7 @@ public class PlusFoodFrame extends WindowAdapter implements ActionListener {
 
 		// 메뉴검색 카드패널
 		pSearch.setLayout(null);
-		pSearch.setBackground(Color.white);
+		pSearch.setBackground(new Color(255,242,236));
 		lName.setBounds(20, 20, 200, 40);
 		lName.setFont(font.f16);
 		tName.setBounds(15, 55, 310, 40);
@@ -114,7 +113,7 @@ public class PlusFoodFrame extends WindowAdapter implements ActionListener {
 
 		// 직접입력 카드패널
 		pInput.setLayout(null);
-		pInput.setBackground(Color.white);
+		pInput.setBackground(new Color(255,251,242));
 		lEx.setBounds(20, 20, 400, 40);
 		lEx.setFont(font.f18);
 		lName2.setBounds(20, 60, 200, 40);
@@ -202,6 +201,7 @@ public class PlusFoodFrame extends WindowAdapter implements ActionListener {
 		} else if (e.getActionCommand().equals("검색")) {
 //			System.out.println("검색");
 			DefaultTableModel model = (DefaultTableModel) tbResult.getModel();
+			model.setRowCount(0);
 			String sql = "select name from nutrition where name like '%" + tName.getText() + "%'";
 			ArrayList<String> menu = cont.bringMenuList(sql);
 			if (menu.size() > 0) {

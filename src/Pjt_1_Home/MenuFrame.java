@@ -1,12 +1,9 @@
 package Pjt_1_Home;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -19,8 +16,7 @@ import Pjt_1_ConnectServer.ConnectTest;
 import Pjt_1_ConnectServer.PanelGroup;
 
 public class MenuFrame {
-	JPanel pMenu, pMenuB, pMenuBB, pMenuL, pMenuLL, pMenuD, pMenu1, pMenuS1, pMenu2, pDate, pNutriBox;
-	JLabel[] lMenuB, lMenuL, lMenuD, lMenu1, lMenu2;
+	JPanel pMenu, pMenuB, pMenuL, pMenuD, pMenu1, pMenu2, pDate, pNutriBox;
 	Double[] nutrinum;
 	int[] n= {0,0,0,0,0};
 	JPanel[] pNutri;
@@ -29,8 +25,6 @@ public class MenuFrame {
 	MyFont font = new MyFont();
 	ConnectTest con = new ConnectTest();
 	PanelGroup pg = new PanelGroup();
-	PanelGroup pg2 = new PanelGroup();
-	PanelGroup pg3 = new PanelGroup();
 
 	LineBorder bb = new LineBorder(Color.gray, 1, false);
 	String id, date;
@@ -45,12 +39,9 @@ public class MenuFrame {
 		pNutri = new JPanel[5];
 		pMenu = new JPanel();
 		pMenuB = new JPanel();
-		pMenuBB = new JPanel();
 		pMenuL = new JPanel();
-		pMenuLL = new JPanel();
 		pMenuD = new JPanel();
 		pMenu1 = new JPanel();
-		pMenuS1 = new JPanel();
 		pMenu2 = new JPanel();
 		
 

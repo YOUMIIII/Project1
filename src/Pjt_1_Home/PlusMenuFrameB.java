@@ -35,10 +35,8 @@ public class PlusMenuFrameB extends WindowAdapter{
 	JTable tbFood;
 	JScrollPane scrollT;
 	JButton bPMenu, bEnterMenu;
-	String id, sqlm, sqls, today, menuName;
+	String id, today;
 	int when;
-	JScrollPane scrollMain, scrollSide;
-	String[] mains, sides, menu;
 	JRadioButton rbTime1, rbTime2, rbTime3, rbTime4, rbTime5;
 	ConnectTest cont = new ConnectTest();
 

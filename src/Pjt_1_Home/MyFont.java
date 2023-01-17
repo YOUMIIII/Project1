@@ -4,9 +4,9 @@ import java.awt.Font;
 
 public class MyFont {
 	public Font f1, f2, f3, f2p, f16,f16b, f15, fLogLabel, fPlusLabel, fExLabel, fPlusMenuList, fNorthLabel;
-	public Font f18, f17, f17b, f18b;
+	public Font f18, f17, f17b, f18b, f10, f14, f20;
 	public MyFont(){
-		f1 = new Font("나눔고딕", Font.PLAIN, 23);
+		f1 = new Font("나눔고딕", Font.PLAIN, 20);
 		f2 = new Font("나눔고딕", Font.BOLD, 13); // 버튼용
 		f2p = new Font("나눔고딕", Font.PLAIN, 13); // 버튼용
 		f3 = new Font("나눔고딕", Font.BOLD, 17); // 메인페이지 이름용
@@ -22,5 +22,8 @@ public class MyFont {
 		f15 = new Font("나눔고딕",Font.PLAIN, 15);
 		f17 = new Font("나눔고딕",Font.PLAIN, 17);
 		f17b = new Font("나눔고딕",Font.BOLD, 17);
+		f10 = new Font("나눔고딕",Font.PLAIN, 10);
+		f14 = new Font("나눔고딕",Font.PLAIN, 14);
+		f20 = new Font("나눔고딕",Font.PLAIN, 20);
 	}
 }
