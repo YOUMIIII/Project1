@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,16 +31,15 @@ public class FridgeFrame extends WindowAdapter implements ActionListener {
 
 	Frame fFridge;
 	JLabel lExplain;
-	JList listFridge;
 	JTable tFridge;
 	RoundedButton bAdd, bUse, bRecipe;
 	String id;
 	ConnectTest con = new ConnectTest();
-	int[] count;
 
-	String[] fridge;
+//	String[] fridge;
 
 	MyFont font = new MyFont();
+	
 
 	public FridgeFrame(String id) {
 		this.id = id;
@@ -65,6 +62,11 @@ public class FridgeFrame extends WindowAdapter implements ActionListener {
 		listField.addElement("유통기한");
 
 		DefaultTableModel model = new DefaultTableModel(listField, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1812600666358922399L;
+
 			public boolean isCellEditable(int r, int c) {
 				return (c != 0) ? true : false;
 			}
@@ -109,12 +111,13 @@ public class FridgeFrame extends WindowAdapter implements ActionListener {
 		
 //		tFridge.setSelectionBackground(Color.blue);
 //		tFridge.setSelectionForeground(Color.white);
-		
+		tFridge.setUpdateSelectionOnSort(true);
+//		setUpdateTableinRealTime(boolean)
 		JScrollPane scroll = new JScrollPane(tFridge);
 
 		scroll.setBounds(35, 80, 300, 400);
 		scroll.setFont(font.f18);
-
+		
 		bAdd.setBounds(365, 180, 100, 30);
 		bAdd.setFont(font.f16);
 		bAdd.addActionListener(this);

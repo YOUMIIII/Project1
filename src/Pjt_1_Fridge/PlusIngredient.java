@@ -128,9 +128,9 @@ public class PlusIngredient extends WindowAdapter implements ActionListener{
 				sql = "insert into myfridge values('" + id + "','" + ingredient + "','" + quantity + "'," + beforeDate + ")";
 			}
 			ConnectTest cont = new ConnectTest();
-			cont.insertFridge(sql);
-			fPlusIn.setVisible(false);
+			cont.insertSql(sql);
 			new FridgeFrame(id);
+			fPlusIn.setVisible(false);
 		}
 		
 	}

@@ -3,7 +3,6 @@ package Pjt_1_Fridge;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.swing.JPanel;
 
 public class FridgeVO {
 	Calendar now = Calendar.getInstance();
