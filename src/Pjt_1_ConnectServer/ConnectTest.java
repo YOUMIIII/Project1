@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
@@ -130,7 +128,7 @@ public class ConnectTest {
 		}
 	}
 
-	//
+	// MenuFrame 에 음식리스트 출력
 	public ArrayList<String> bringMenuList(String sql) {
 		ArrayList<String> list = new ArrayList<String>();
 		try {
@@ -195,7 +193,7 @@ public class ConnectTest {
 		return nutrinum;
 	}
 
-	public void insertFridge(String sql) {
+	public void insertSql(String sql) {
 		try {
 			connDB();
 			boolean b = stmt.execute(sql);
@@ -226,43 +224,44 @@ public class ConnectTest {
 		}
 	}
 
-	public boolean idCheck(String sql) {
-		try {
-			connDB();
-			rs = stmt.executeQuery(sql);
-
-			if (rs.next()) {
-//				System.out.println("아이디있음");
-				return true;
-			} else {
-//				System.out.println("아이디없");
-				return false;
-			}
-
-		} catch (Exception e) {
-			System.out.println("오류");
-			return false;
-		}
-	}
+//	public boolean idCheck(String sql) {
+//		try {
+//			connDB();
+//			rs = stmt.executeQuery(sql);
+//
+//			if (rs.next()) {
+////				String name = rs.getS
+////				System.out.println("아이디있음");
+//				return true;
+//			} else {
+////				System.out.println("아이디없");
+//				return false;
+//			}
+//
+//		} catch (Exception e) {
+//			System.out.println("오류");
+//			return false;
+//		}
+//	}
 	
-	public String[] bringBaby(String sql){
-		String[] baby = new String[4];
-		try {
-			connDB();
-			rs = stmt.executeQuery(sql);
-			if(rs.next()) {
-				String name = rs.getString("BABY_NAME");
-				baby[0] = name;
-				String birth = rs.getString("BIRTH");
-				baby[1] = birth;
-				String sex = rs.getString("SEX");
-				baby[2] = sex;
-				String photo = rs.getString("PHOTO");
-				baby[3] = photo;
-			}
-		}catch(Exception e) {
-			System.out.println("오류");
-		}
-		return baby;
-	}
+//	public String[] bringBaby(String sql){
+//		String[] baby = new String[4];
+//		try {
+//			connDB();
+//			rs = stmt.executeQuery(sql);
+//			if(rs.next()) {
+//				String name = rs.getString("BABY_NAME");
+//				baby[0] = name;
+//				String birth = rs.getString("BIRTH");
+//				baby[1] = birth;
+//				String sex = rs.getString("SEX");
+//				baby[2] = sex;
+//				String photo = rs.getString("PHOTO");
+//				baby[3] = photo;
+//			}
+//		}catch(Exception e) {
+//			System.out.println("오류");
+//		}
+//		return baby;
+//	}
 }
