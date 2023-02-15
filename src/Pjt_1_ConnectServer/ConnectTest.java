@@ -223,6 +223,27 @@ public class ConnectTest {
 			System.out.println("저기?");
 		}
 	}
+	
+	public String getRecipe(String sql) {
+		String show = "";
+		try {
+			connDB();
+			rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				String name = rs.getString("name");
+				String kind = rs.getString("kind");
+				String info = rs.getString("info");
+				String manual = rs.getString("manual");
+				
+				show = "메뉴이름 : " + name + "\n" + "종류 : " + kind + "\n" + "재료 : " + info + "\n\n" + "레시피\n" + manual;
+				if(show.contains("null")) {
+					show = show.replace("null", "");
+				}
+			}
+		}catch (SQLException e) {
+			System.out.println(e);
+		}return show;
+	}
 
 //	public boolean idCheck(String sql) {
 //		try {

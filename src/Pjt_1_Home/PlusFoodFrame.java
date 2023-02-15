@@ -222,8 +222,8 @@ public class PlusFoodFrame extends WindowAdapter implements ActionListener {
 			String value = tbResult.getValueAt(row, column).toString();
 			String sql = "select * from nutrition where name = '" + value + "'"; // nutrition테이블에서 선택값 찾
 			cont.plusList(sql, id);
-			new PlusMenuFrameB(id);
 			fPFood.setVisible(false);
+			new PlusMenuFrameB(id);
 		} else if (e.getSource() == bAdd2) {
 			String name = tName2.getText();
 			String[] nutri = new String[tNutri.length];

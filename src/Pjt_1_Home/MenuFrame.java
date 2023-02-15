@@ -196,7 +196,7 @@ public class MenuFrame {
 	}
 	
 	int getN1() {
-		return (int)n[0];
+		return (int)n[0]/2;
 	}
 	
 	int getN2() {

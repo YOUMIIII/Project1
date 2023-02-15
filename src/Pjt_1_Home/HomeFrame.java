@@ -576,6 +576,7 @@ public class HomeFrame extends WindowAdapter implements ActionListener {
 		if (e.getSource().equals(fBaby)) {
 			fBaby.setVisible(false);
 		} else if (e.getSource().equals(fMypage)) {
+			homeOpen();
 			fMypage.setVisible(false);
 		} else if (e.getSource().equals(fAskPass)) {
 			fAskPass.setVisible(false);

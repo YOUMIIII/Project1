@@ -75,6 +75,36 @@ public class LoginDao {
 		}
 		return list;
 	}
+	
+	void findId(String sql) {
+		try {
+			connDB();
+			cont.rs = cont.stmt.executeQuery(sql);
+			
+			if(cont.rs.next()) {
+				String id = cont.rs.getString("ID");
+				String showId = id.substring(0, id.length()-3);
+				JOptionPane.showMessageDialog(null, "아이디는 " + showId +"***입니다","아이디찾기",JOptionPane.PLAIN_MESSAGE);
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	String findPw(String sql) {
+		String pw = "";
+		try {
+			connDB();
+			cont.rs = cont.stmt.executeQuery(sql);
+			if(cont.rs.next()) {
+				pw = cont.rs.getString("pw");
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}return pw;
+	}
 
 	public void connDB() {
 		try {

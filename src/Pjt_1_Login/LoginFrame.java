@@ -94,6 +94,8 @@ public class LoginFrame implements ActionListener {
 		
 		btnLog.addActionListener(this);// 로그인 버튼 리스너추가
 		btnSign.addActionListener(this); // 회원가입 버튼 리스너추가
+		btnFindId.addActionListener(this); // 회원가입 버튼 리스너추가
+		btnFindPw.addActionListener(this); // 회원가입 버튼 리스너추가
 		
 		p.add(lId);
 		p.add(tId);
@@ -150,6 +152,12 @@ public class LoginFrame implements ActionListener {
 				System.out.println(ex);
 
 			}
+		} if(e.getSource().equals(btnFindId)) {
+			FindIdPw find = new FindIdPw();
+			find.findId();
+		}if(e.getSource().equals(btnFindPw)) {
+			FindIdPw find = new FindIdPw();
+			find.findPw();
 		}
 	}
 }

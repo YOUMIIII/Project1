@@ -154,6 +154,7 @@ public class Login_SignFrame extends WindowAdapter implements ActionListener {
 		bNext.addActionListener(this);
 		btnSign.addActionListener(this);
 		bPrevious.addActionListener(this);
+		bPlusP.addActionListener(this);
 
 //		tYear.setBounds(50, 385, 70, 35);
 //		cMonth.setBounds(130, 388, 60, 30);
